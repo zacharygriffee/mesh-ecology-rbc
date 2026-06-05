@@ -287,6 +287,8 @@ Exit criteria:
 - `npm run release:check` executes the repo-level release readiness proof gate.
 - Report-only evaluation receipts over supplied material are implemented with
   readback/hash proof and explicit non-claims.
+- Layer-oriented report-only receipt proof fixtures cover authorized,
+  missing-review, hard-denied, and expired-grant paths.
 
 ## Immediate Next Work
 

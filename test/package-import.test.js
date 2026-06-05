@@ -23,6 +23,8 @@ test("temporary consumer imports package export and resolves effective view", as
     } from 'mesh-ecology-rbc';
     import {
       listOperationalProofFixtures,
+      listReportOnlyReceiptProofFixtures,
+      runReportOnlyReceiptProofSuite,
       runOperationalProofSuite
     } from 'mesh-ecology-rbc/conformance';
 
@@ -55,6 +57,8 @@ test("temporary consumer imports package export and resolves effective view", as
     });
     const fixtureIds = listOperationalProofFixtures();
     const selectedProof = runOperationalProofSuite(['edge-writer-admission-allowed']);
+    const receiptFixtureIds = listReportOnlyReceiptProofFixtures();
+    const selectedReceiptProof = runReportOnlyReceiptProofSuite(['layer-writer-authorized']);
     const reportOnlyReceipt = resolveReportOnlyEvaluationReceipt({
       rulebookRef: 'rulebook.consumer',
       capabilityRef: 'capability:consumer-publish',
@@ -70,6 +74,8 @@ test("temporary consumer imports package export and resolves effective view", as
       packedRef: packed.effectiveViewRef,
       fixtureCount: fixtureIds.length,
       selectedProof,
+      receiptFixtureCount: receiptFixtureIds.length,
+      selectedReceiptProof,
       reportOnlyDecision: reportOnlyReceipt.receipt.decision,
       reportOnlyHashMatches: reportOnlyReceipt.readback.hashMatches,
       reportOnlyGovernedSeamClaim: reportOnlyReceipt.receipt.nonClaims.governedSeam,
@@ -90,6 +96,13 @@ test("temporary consumer imports package export and resolves effective view", as
     posture: "allowed",
     effectiveViewRef: "rbc-view:401ba7d7c528585b5bafd732704b39d81ae08a365c4af8bea7a5b338fe680bd3"
   }]);
+  assert.equal(globalThis.__rbcConsumerResult.receiptFixtureCount, 4);
+  assert.equal(globalThis.__rbcConsumerResult.selectedReceiptProof[0].id, "layer-writer-authorized");
+  assert.equal(globalThis.__rbcConsumerResult.selectedReceiptProof[0].decision, "allowed");
+  assert.match(
+    globalThis.__rbcConsumerResult.selectedReceiptProof[0].receiptRef,
+    /^rbc-evaluation-receipt:[a-f0-9]{16}$/
+  );
   assert.equal(globalThis.__rbcConsumerResult.reportOnlyDecision, "allowed");
   assert.equal(globalThis.__rbcConsumerResult.reportOnlyHashMatches, true);
   assert.equal(globalThis.__rbcConsumerResult.reportOnlyGovernedSeamClaim, false);

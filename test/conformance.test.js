@@ -1,9 +1,14 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
+import { stableStringify } from "../src/index.js";
 import {
   listOperationalProofFixtures,
+  listReportOnlyReceiptProofFixtures,
   operationalProofFixtures,
+  reportOnlyReceiptProofFixtures,
+  runReportOnlyReceiptProof,
+  runReportOnlyReceiptProofSuite,
   runOperationalProof,
   runOperationalProofSuite
 } from "../conformance/index.js";
@@ -29,4 +34,40 @@ test("conformance API fails closed for unknown fixture id", () => {
     () => runOperationalProofSuite(["missing-fixture"]),
     /Unknown operational proof fixture: missing-fixture/
   );
+});
+
+test("conformance API lists and runs selected report-only receipt proof", () => {
+  assert.ok(listReportOnlyReceiptProofFixtures().includes("layer-writer-authorized"));
+
+  const [result] = runReportOnlyReceiptProofSuite(["layer-writer-authorized"]);
+
+  assert.equal(result.id, "layer-writer-authorized");
+  assert.equal(result.decision, "allowed");
+  assert.equal(result.posture, "allowed");
+  assert.match(result.receiptRef, /^rbc-evaluation-receipt:[a-f0-9]{16}$/);
+  assert.match(result.receiptHash, /^sha256:[a-f0-9]{64}$/);
+  assert.match(result.readbackRef, /^rbc-evaluation-readback:[a-f0-9]{16}$/);
+  assert.match(result.readbackHash, /^sha256:[a-f0-9]{64}$/);
+  assert.match(result.effectiveViewRef, /^rbc-view:[a-f0-9]{64}$/);
+});
+
+test("conformance API runs a report-only receipt fixture object", () => {
+  const result = runReportOnlyReceiptProof("layer-writer-hard-denied");
+
+  assert.deepEqual(runReportOnlyReceiptProof(reportOnlyReceiptProofFixtures.layerWriterHardDenied), result);
+});
+
+test("conformance API fails closed for unknown report-only receipt fixture id", () => {
+  assert.throws(
+    () => runReportOnlyReceiptProofSuite(["missing-fixture"]),
+    /Unknown report-only receipt proof fixture: missing-fixture/
+  );
+});
+
+test("conformance API does not mutate report-only receipt proof fixtures", () => {
+  const before = stableStringify(reportOnlyReceiptProofFixtures);
+
+  runReportOnlyReceiptProofSuite();
+
+  assert.equal(stableStringify(reportOnlyReceiptProofFixtures), before);
 });

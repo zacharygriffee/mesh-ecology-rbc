@@ -23,11 +23,14 @@ check.
 - `npm run proof:run` executes named operational proof fixtures.
 - `rbc-proof run <fixture-id>` executes selected proof fixtures and fails
   closed on unknown names.
+- `rbc-proof receipt:run` executes named report-only receipt proof fixtures.
 - Operational fixtures resolve expected postures with mandatory trace.
 - Operational fixtures validate deterministic repeated refs, required receipts,
   unresolved source refs, and policy-history posture where applicable.
 - Report-only evaluation receipt tests prove allowed, denied, deferred,
   readback/hash verification, tamper detection, and non-claims.
+- Report-only receipt conformance fixtures prove Layer-oriented authorized,
+  missing-review, hard-denied, and expired-grant paths.
 - Effective views emit `viewVersion: "effective_view.v1"`.
 - Stable refs are deterministic for equivalent input.
 - Input material is not mutated.
@@ -55,6 +58,7 @@ npm run example
 npm run proof:list
 npm run proof:run
 rbc-proof run edge-writer-admission-allowed
+rbc-proof receipt:run layer-writer-authorized
 git tag -a v1.0.0 -m "mesh-ecology-rbc operational v1"
 git push origin v1.0.0
 ```

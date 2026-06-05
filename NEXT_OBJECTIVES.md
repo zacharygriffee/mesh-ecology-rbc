@@ -83,8 +83,11 @@ Current implementation:
 - `resolveReportOnlyEvaluationReceipt(input)`
 - `createReportOnlyEvaluationReadback(receipt)`
 - `verifyReportOnlyEvaluationReadback(receipt, readback)`
+- `runReportOnlyReceiptProofSuite(ids)`
 - proof remains `local_supplied_material`
 - covered by `npm test` and `npm run release:check`
+- Layer-oriented receipt proof fixtures cover authorized, missing-review,
+  hard-denied, and expired-grant paths.
 
 ## Next Useful Work
 
@@ -93,7 +96,8 @@ the evaluator core:
 
 - preserve deterministic refs;
 - keep proof fixtures operational rather than doc-only;
-- improve Layer-oriented writer/capability/admission profiles;
+- add only downstream-driven Layer-oriented writer/capability/admission
+  profiles after a real boundary asks for them;
 - keep caller-supplied policy history explicit;
 - keep adapters as data suppliers outside the resolver core.
 - do not claim governed seam from local receipt generation alone.

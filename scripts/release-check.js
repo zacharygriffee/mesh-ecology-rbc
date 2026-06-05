@@ -33,9 +33,29 @@ const checks = [
     args: ["bin/rbc-proof.js", "run", "edge-writer-admission-allowed", "causal-policy-history-conflict"]
   },
   {
+    label: "report-only receipt proof fixture listing",
+    command: process.execPath,
+    args: ["bin/rbc-proof.js", "receipt:list"]
+  },
+  {
+    label: "full report-only receipt proof suite",
+    command: process.execPath,
+    args: ["bin/rbc-proof.js", "receipt:run"]
+  },
+  {
+    label: "selected report-only receipt proof fixtures",
+    command: process.execPath,
+    args: ["bin/rbc-proof.js", "receipt:run", "layer-writer-authorized", "layer-writer-hard-denied"]
+  },
+  {
     label: "package bin proof execution",
     command: npmCommand,
     args: ["exec", "--", "rbc-proof", "run", "edge-writer-admission-allowed"]
+  },
+  {
+    label: "package bin report-only receipt proof execution",
+    command: npmCommand,
+    args: ["exec", "--", "rbc-proof", "receipt:run", "layer-writer-authorized"]
   },
   {
     label: "package dry run",

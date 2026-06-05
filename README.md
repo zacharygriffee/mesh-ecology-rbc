@@ -38,6 +38,8 @@ npm test
 npm run example
 npm run proof:list
 npm run proof:run
+node bin/rbc-proof.js receipt:list
+node bin/rbc-proof.js receipt:run
 npm run release:check
 ```
 
@@ -106,9 +108,13 @@ Downstream repos can import executable proof support without importing from
 `test/`:
 
 ```js
-import { runOperationalProofSuite } from "mesh-ecology-rbc/conformance";
+import {
+  runOperationalProofSuite,
+  runReportOnlyReceiptProofSuite
+} from "mesh-ecology-rbc/conformance";
 
 const results = runOperationalProofSuite(["edge-writer-admission-allowed"]);
+const receiptResults = runReportOnlyReceiptProofSuite(["layer-writer-authorized"]);
 ```
 
 The package also exposes `rbc-proof` for listing or running the same proof

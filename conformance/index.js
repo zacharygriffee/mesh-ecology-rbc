@@ -1,7 +1,15 @@
-import { resolveEffectiveView } from "../src/index.js";
+import {
+  resolveEffectiveView,
+  resolveReportOnlyEvaluationReceipt,
+  verifyReportOnlyEvaluationReadback
+} from "../src/index.js";
 import { operationalProofFixtures } from "./fixtures/index.js";
+import { reportOnlyReceiptProofFixtures } from "./receipt-fixtures/index.js";
 
-export { operationalProofFixtures };
+export {
+  operationalProofFixtures,
+  reportOnlyReceiptProofFixtures
+};
 
 export function listOperationalProofFixtures() {
   return Object.values(operationalProofFixtures).map((fixture) => fixture.id);
@@ -67,6 +75,126 @@ export function runOperationalProofSuite(ids = []) {
   return selectedFixtures(ids).map(runOperationalProof);
 }
 
+export function listReportOnlyReceiptProofFixtures() {
+  return Object.values(reportOnlyReceiptProofFixtures).map((fixture) => fixture.id);
+}
+
+export function runReportOnlyReceiptProof(fixtureOrId) {
+  const fixture = typeof fixtureOrId === "string"
+    ? receiptFixtureById(fixtureOrId)
+    : fixtureOrId;
+
+  if (!fixture || typeof fixture !== "object") {
+    throw new Error("Report-only receipt proof fixture must be a fixture object or known fixture id.");
+  }
+
+  const proof = resolveReportOnlyEvaluationReceipt(fixture.input);
+  const repeatedProof = resolveReportOnlyEvaluationReceipt(fixture.input);
+  const { receipt, readback } = proof;
+  const failures = [];
+
+  if (receipt.decision !== fixture.expected.decision) {
+    failures.push(`expected decision ${fixture.expected.decision}, got ${receipt.decision}`);
+  }
+
+  if (receipt.posture !== fixture.expected.posture) {
+    failures.push(`expected posture ${fixture.expected.posture}, got ${receipt.posture}`);
+  }
+
+  if (receipt.rulebookRef !== fixture.expected.rulebookRef) {
+    failures.push(`expected rulebookRef ${fixture.expected.rulebookRef}, got ${receipt.rulebookRef}`);
+  }
+
+  if (receipt.capabilityRef !== fixture.expected.capabilityRef) {
+    failures.push(`expected capabilityRef ${fixture.expected.capabilityRef}, got ${receipt.capabilityRef}`);
+  }
+
+  if (receipt.receiptHash !== repeatedProof.receipt.receiptHash) {
+    failures.push("receiptHash was not deterministic across repeated resolution");
+  }
+
+  if (readback.readbackHash !== repeatedProof.readback.readbackHash) {
+    failures.push("readbackHash was not deterministic across repeated resolution");
+  }
+
+  for (const sourceRef of fixture.expected.sourceRefs) {
+    if (!receipt.sourceRefs.includes(sourceRef)) {
+      failures.push(`missing receipt source ref ${sourceRef}`);
+    }
+  }
+
+  for (const traceRef of fixture.expected.traceRefs) {
+    if (!receipt.traceRefs.includes(traceRef)) {
+      failures.push(`missing receipt trace ref ${traceRef}`);
+    }
+  }
+
+  for (const [claim, expected] of Object.entries(fixture.expected.nonClaims)) {
+    if (receipt.nonClaims[claim] !== expected) {
+      failures.push(`nonClaims.${claim} expected ${expected}, got ${receipt.nonClaims[claim]}`);
+    }
+  }
+
+  if (!sameObject(receipt.scope, fixture.input.scope)) {
+    failures.push(`scope expected ${JSON.stringify(fixture.input.scope)}, got ${JSON.stringify(receipt.scope)}`);
+  }
+
+  if (!sameArray(receipt.evidenceRefs, fixture.input.evidenceRefs)) {
+    failures.push(`evidenceRefs expected ${JSON.stringify(fixture.input.evidenceRefs)}, got ${JSON.stringify(receipt.evidenceRefs)}`);
+  }
+
+  if (!/^rbc-evaluation-receipt:[a-f0-9]{16}$/.test(receipt.receiptRef)) {
+    failures.push(`invalid receiptRef ${receipt.receiptRef}`);
+  }
+
+  if (!/^sha256:[a-f0-9]{64}$/.test(receipt.receiptHash)) {
+    failures.push(`invalid receiptHash ${receipt.receiptHash}`);
+  }
+
+  if (!/^rbc-evaluation-readback:[a-f0-9]{16}$/.test(readback.readbackRef)) {
+    failures.push(`invalid readbackRef ${readback.readbackRef}`);
+  }
+
+  if (!/^sha256:[a-f0-9]{64}$/.test(readback.readbackHash)) {
+    failures.push(`invalid readbackHash ${readback.readbackHash}`);
+  }
+
+  if (!/^rbc-view:[a-f0-9]{64}$/.test(receipt.effectiveViewRef)) {
+    failures.push(`invalid effectiveViewRef ${receipt.effectiveViewRef}`);
+  }
+
+  if (readback.hashMatches !== true) {
+    failures.push("readback hashMatches must be true");
+  }
+
+  if (!verifyReportOnlyEvaluationReadback(receipt, readback)) {
+    failures.push("readback verification failed");
+  }
+
+  if (receipt.proofRung !== "local_supplied_material") {
+    failures.push(`proofRung expected local_supplied_material, got ${receipt.proofRung}`);
+  }
+
+  if (failures.length > 0) {
+    throw new Error(`${fixture.id} failed: ${failures.join("; ")}`);
+  }
+
+  return {
+    id: fixture.id,
+    decision: receipt.decision,
+    posture: receipt.posture,
+    receiptRef: receipt.receiptRef,
+    receiptHash: receipt.receiptHash,
+    readbackRef: readback.readbackRef,
+    readbackHash: readback.readbackHash,
+    effectiveViewRef: receipt.effectiveViewRef
+  };
+}
+
+export function runReportOnlyReceiptProofSuite(ids = []) {
+  return selectedReceiptFixtures(ids).map(runReportOnlyReceiptProof);
+}
+
 function selectedFixtures(ids) {
   const requestedIds = Array.isArray(ids) ? ids : [];
 
@@ -77,12 +205,33 @@ function selectedFixtures(ids) {
   return requestedIds.map(fixtureById);
 }
 
+function selectedReceiptFixtures(ids) {
+  const requestedIds = Array.isArray(ids) ? ids : [];
+
+  if (requestedIds.length === 0) {
+    return Object.values(reportOnlyReceiptProofFixtures);
+  }
+
+  return requestedIds.map(receiptFixtureById);
+}
+
 function fixtureById(id) {
   const fixture = Object.values(operationalProofFixtures)
     .find((candidate) => candidate.id === id);
 
   if (!fixture) {
     throw new Error(`Unknown operational proof fixture: ${id}`);
+  }
+
+  return fixture;
+}
+
+function receiptFixtureById(id) {
+  const fixture = Object.values(reportOnlyReceiptProofFixtures)
+    .find((candidate) => candidate.id === id);
+
+  if (!fixture) {
+    throw new Error(`Unknown report-only receipt proof fixture: ${id}`);
   }
 
   return fixture;
@@ -125,4 +274,8 @@ function sameArray(actual, expected) {
     actual.length === expected.length &&
     actual.every((value, index) => value === expected[index])
   );
+}
+
+function sameObject(actual, expected) {
+  return JSON.stringify(actual) === JSON.stringify(expected);
 }

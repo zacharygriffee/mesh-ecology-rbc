@@ -67,3 +67,24 @@ This lane does not claim:
 
 Only a later downstream repo boundary consuming the receipt can raise the proof
 rung toward governed seam.
+
+## Operational Proof
+
+Layer-oriented supplied-material proof fixtures cover:
+
+- `layer-writer-authorized`
+- `layer-writer-missing-review`
+- `layer-writer-hard-denied`
+- `layer-writer-expired-grant`
+
+Run:
+
+```bash
+node bin/rbc-proof.js receipt:list
+node bin/rbc-proof.js receipt:run
+node bin/rbc-proof.js receipt:run layer-writer-authorized
+```
+
+These fixtures prove receipt/readback hashes, deterministic repeated output,
+source refs, trace refs, and non-claims. They are RBC-local evaluator proof,
+not Layer repo proof.

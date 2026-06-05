@@ -18,6 +18,7 @@
 - Added public operational conformance exports and the `rbc-proof` CLI.
 - Added an executable release readiness proof gate.
 - Added report-only evaluation receipts with readback/hash proof.
+- Added Layer-oriented report-only receipt conformance fixtures.
 
 ## 0.0.0
 
