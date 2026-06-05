@@ -1,0 +1,20 @@
+{
+  "name": "mesh-ecology-rbc",
+  "version": "0.0.0",
+  "description": "Deterministic Rulebook Cascade resolver for Mesh Ecology effective rule views.",
+  "type": "module",
+  "main": "./src/index.js",
+  "exports": {
+    ".": "./src/index.js"
+  },
+  "scripts": {
+    "test": "node --test",
+    "example": "node examples/basic-resolution.js"
+  },
+  "keywords": [
+    "mesh-ecology",
+    "rbc",
+    "rulebook-cascade"
+  ],
+  "license": "MIT"
+}
