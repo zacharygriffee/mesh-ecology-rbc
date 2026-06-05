@@ -268,14 +268,19 @@ Exit criteria:
 - Receipt states are tested.
 - Pure policy-pack resolution is tested.
 - Adapter-shaped data prepared outside RBC resolves identically to plain data.
+- Temporary consumer import through package exports is tested.
+- Named operational proof fixture index is tested.
+- Prepared mock/proto RBC compatibility fixture is tested.
+- Scalar compatibility/admissibility preservation and hash impact are tested.
+- Source boundary hardening is tested.
 
 ## Immediate Next Work
 
-1. Add a changelog and v1 release checklist.
-2. Add package import smoke proof from a temporary consumer directory.
-3. Add compatibility notes for downstream repos that currently have mock RBC
-   shapes.
-4. Add a fixture index so downstream repos can run the operational proof bundle
-   by name.
-5. Decide whether `compatibility` and `admissibility` remain scalar fields in
-   v1 or become structured objects in v1.1.
+1. Add a fixture runner script so downstream repos can execute named proof
+   bundles from the command line.
+2. Add release tagging guidance for the first operational v1 tag.
+3. Add downstream import notes for each repo family member as they adopt RBC.
+4. Add causal policy-history input shape and operational proof without reading
+   causal logs.
+5. Revisit structured `compatibility` and `admissibility` for v1.1 only after
+   downstream proof shows scalar fields are insufficient.

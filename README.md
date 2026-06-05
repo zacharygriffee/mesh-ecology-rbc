@@ -88,3 +88,7 @@ pure core.
 
 See [docs/objectives.md](docs/objectives.md) for the staged objective list to
 take RBC from the current scaffold to an operational core.
+
+Operational release proof is tracked in
+[docs/release-checklist.md](docs/release-checklist.md). Mock/proto preparation
+guidance is in [docs/mock-proto-compatibility.md](docs/mock-proto-compatibility.md).
