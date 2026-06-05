@@ -85,3 +85,6 @@ Early experimental repo. The current implementation is a minimal deterministic
 resolver with simple equality matching and deny-wins precedence. Future storage,
 transport, causal-history, receipt, and policy-pack adapters belong outside the
 pure core.
+
+See [docs/objectives.md](docs/objectives.md) for the staged objective list to
+take RBC from the current scaffold to an operational core.
