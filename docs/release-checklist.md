@@ -7,6 +7,8 @@ checklist alone.
 
 - `npm test` passes.
 - A temporary consumer can import `mesh-ecology-rbc` through the package export.
+- `npm run proof:list` prints named operational proof fixtures.
+- `npm run proof:run` executes named operational proof fixtures.
 - Operational fixtures resolve expected postures with mandatory trace.
 - Effective views emit `viewVersion: "effective_view.v1"`.
 - Stable refs are deterministic for equivalent input.
@@ -23,3 +25,16 @@ checklist alone.
 - No server, daemon, database, scheduler, network, storage, identity, governance,
   Hypercore, Autobase, Corestore, DHT, hidden clock, or random ID behavior in
   core.
+
+## Tagging Guidance
+
+Do not tag v1 until the operator explicitly requests it. When requested, use:
+
+```bash
+npm test
+npm run example
+npm run proof:list
+npm run proof:run
+git tag -a v1.0.0 -m "mesh-ecology-rbc operational v1"
+git push origin v1.0.0
+```

@@ -9,7 +9,9 @@
   },
   "scripts": {
     "test": "node --test",
-    "example": "node examples/basic-resolution.js"
+    "example": "node examples/basic-resolution.js",
+    "proof:list": "node scripts/proof-runner.js list",
+    "proof:run": "node scripts/proof-runner.js run"
   },
   "keywords": [
     "mesh-ecology",

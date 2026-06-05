@@ -22,6 +22,7 @@ export function resolvePolicyPackView(input = {}) {
     grants: pack.grants,
     denials: pack.denials,
     receipts: resolverInput.receipts,
+    policyHistory: resolverInput.policyHistory,
     time: resolverInput.time,
     compatibility: resolverInput.compatibility,
     admissibility: resolverInput.admissibility

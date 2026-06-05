@@ -4,6 +4,7 @@ import {
   EFFECTIVE_VIEW_VERSION,
   EFFECTS,
   NON_CLAIMS,
+  POLICY_HISTORY_POSTURES,
   SOURCE_TYPES,
   STRENGTHS
 } from "./constants.js";
@@ -17,6 +18,7 @@ import {
   validateDenial,
   validateGrant,
   validateInput,
+  validatePolicyHistory,
   validateReceipt,
   validateRuleEntry,
   validationTrace,
@@ -34,6 +36,7 @@ export function resolveEffectiveView(input = {}) {
   const grantIssues = arrayOf(resolverInput.grants).flatMap(validateGrant);
   const denialIssues = arrayOf(resolverInput.denials).flatMap(validateDenial);
   const receiptIssues = arrayOf(resolverInput.receipts).flatMap(validateReceipt);
+  const policyHistoryIssues = validatePolicyHistory(resolverInput.policyHistory);
   const duplicateIssues = duplicateRefIssues(sourceRefsForDuplicateCheck(allRuleEntries, resolverInput));
   const validationIssues = [
     ...inputIssues,
@@ -41,6 +44,7 @@ export function resolveEffectiveView(input = {}) {
     ...grantIssues,
     ...denialIssues,
     ...receiptIssues,
+    ...policyHistoryIssues,
     ...duplicateIssues,
     ...timeIssues(time)
   ];
@@ -75,8 +79,10 @@ export function resolveEffectiveView(input = {}) {
   const blockingReviewRules = reviewRules.filter((source) => !reviewSatisfied(source, receiptEvaluations));
   const satisfiedReviewRules = reviewRules.filter((source) => reviewSatisfied(source, receiptEvaluations));
   const conflicts = detectConflicts(ruleSources, activeGrantSources);
+  const policyHistory = evaluatePolicyHistory(resolverInput.policyHistory);
   const unresolved = [
     ...validationIssues.map(validationSource),
+    ...policyHistory.unresolvedSources,
     ...grantEvaluations
       .filter((grant) => grant.status === "unresolved_time")
       .map((grant) => materialSource(grant.material, SOURCE_TYPES.GRANT))
@@ -106,6 +112,7 @@ export function resolveEffectiveView(input = {}) {
     ...denialSources.map((source) => sourceTrace(source, decision, winningIds, satisfiedReviewRules)),
     ...grantEvaluations.map(grantTrace),
     ...receiptEvaluations.map(receiptTrace),
+    policyHistoryTrace(policyHistory),
     ...conflicts.map(conflictTrace),
     ...validationIssues.map(validationTrace),
     ...defaultTrace(decision, ruleSources, denialSources, grantEvaluations, validationIssues)
@@ -145,6 +152,8 @@ export function resolveEffectiveView(input = {}) {
     overlayRefs: unique(ruleSources.map((source) => source.overlayRef)),
     conflicts: conflicts.map(publicConflict),
     unresolved: unresolved.map(publicUnresolved),
+    policyHistory: policyHistory.view,
+    policyHistoryPosture: policyHistory.posture,
     compatibility: resolverInput.compatibility ?? DEFAULT_COMPATIBILITY,
     admissibility: resolverInput.admissibility ?? DEFAULT_ADMISSIBILITY,
     mediation: mediationFor(decision, requiredReceipts),
@@ -563,4 +572,90 @@ function explicitPostureSources(ruleSources, posture) {
       ...source,
       effect: source.effect ?? posture
     }));
+}
+
+function evaluatePolicyHistory(policyHistory) {
+  const material = policyHistory && typeof policyHistory === "object" && !Array.isArray(policyHistory)
+    ? policyHistory
+    : {};
+  const posture = Object.values(POLICY_HISTORY_POSTURES).includes(material.posture)
+    ? material.posture
+    : inferredPolicyHistoryPosture(material);
+  const view = {
+    posture,
+    visibleRefs: arrayOf(material.visibleRefs),
+    partialRefs: arrayOf(material.partialRefs),
+    desyncedRefs: arrayOf(material.desyncedRefs),
+    unverifiedRefs: arrayOf(material.unverifiedRefs),
+    conflictRefs: arrayOf(material.conflictRefs),
+    supersessionRefs: arrayOf(material.supersessionRefs),
+    revocationRefs: arrayOf(material.revocationRefs),
+    sourceBranchRefs: arrayOf(material.sourceBranchRefs)
+  };
+
+  return {
+    posture,
+    view,
+    unresolvedSources: unresolvedPolicyHistorySources(view)
+  };
+}
+
+function inferredPolicyHistoryPosture(policyHistory) {
+  if (arrayOf(policyHistory.conflictRefs).length > 0) {
+    return POLICY_HISTORY_POSTURES.CONFLICT_OBSERVED;
+  }
+
+  if (arrayOf(policyHistory.desyncedRefs).length > 0) {
+    return POLICY_HISTORY_POSTURES.DESYNCED;
+  }
+
+  if (arrayOf(policyHistory.partialRefs).length > 0) {
+    return POLICY_HISTORY_POSTURES.PARTIAL;
+  }
+
+  if (arrayOf(policyHistory.unverifiedRefs).length > 0) {
+    return POLICY_HISTORY_POSTURES.UNVERIFIED;
+  }
+
+  return POLICY_HISTORY_POSTURES.SYNCED;
+}
+
+function unresolvedPolicyHistorySources(policyHistory) {
+  const refs = [
+    ...policyHistory.revocationRefs.map((ref) => ({
+      id: ref,
+      sourceType: SOURCE_TYPES.VALIDATION,
+      effect: "unresolved",
+      reason: "Policy history includes a revocation ref supplied by caller."
+    })),
+    ...policyHistory.supersessionRefs.map((ref) => ({
+      id: ref,
+      sourceType: SOURCE_TYPES.VALIDATION,
+      effect: "unresolved",
+      reason: "Policy history includes a supersession ref supplied by caller."
+    }))
+  ];
+
+  if (policyHistory.posture === POLICY_HISTORY_POSTURES.CONFLICT_OBSERVED) {
+    refs.push({
+      id: "policyHistory",
+      sourceType: SOURCE_TYPES.VALIDATION,
+      effect: "unresolved",
+      reason: "Policy history conflict was supplied by caller."
+    });
+  }
+
+  return refs;
+}
+
+function policyHistoryTrace(policyHistory) {
+  return traceEntry({
+    sourceRef: "policyHistory",
+    sourceType: SOURCE_TYPES.VALIDATION,
+    effect: "policy_history",
+    status: policyHistory.posture,
+    role: policyHistory.unresolvedSources.length > 0 ? "unresolved" : "evidence",
+    reason: "Policy history posture was computed only from caller-supplied data.",
+    details: policyHistory.view
+  });
 }

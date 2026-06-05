@@ -22,6 +22,18 @@ basis.
   overlayRefs: [],
   conflicts: [],
   unresolved: [],
+  policyHistory: {
+    posture: "policy_history_synced",
+    visibleRefs: [],
+    partialRefs: [],
+    desyncedRefs: [],
+    unverifiedRefs: [],
+    conflictRefs: [],
+    supersessionRefs: [],
+    revocationRefs: [],
+    sourceBranchRefs: []
+  },
+  policyHistoryPosture: "policy_history_synced",
   compatibility: "compatible",
   admissibility: "not_applicable",
   mediation: {

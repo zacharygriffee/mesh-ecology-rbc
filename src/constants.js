@@ -35,6 +35,14 @@ export const DEFAULT_COMPATIBILITY = "compatible";
 export const DEFAULT_ADMISSIBILITY = "not_applicable";
 export const EFFECTIVE_VIEW_VERSION = "effective_view.v1";
 
+export const POLICY_HISTORY_POSTURES = Object.freeze({
+  SYNCED: "policy_history_synced",
+  PARTIAL: "policy_history_partial",
+  DESYNCED: "policy_history_desynced",
+  UNVERIFIED: "policy_history_unverified",
+  CONFLICT_OBSERVED: "policy_history_conflict_observed"
+});
+
 export const NON_CLAIMS = Object.freeze({
   execution: false,
   approval: false,

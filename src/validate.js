@@ -1,8 +1,9 @@
-import { EFFECTS, POSTURES, SOURCE_TYPES, STRENGTHS } from "./constants.js";
+import { EFFECTS, POLICY_HISTORY_POSTURES, POSTURES, SOURCE_TYPES, STRENGTHS } from "./constants.js";
 
 const SUPPORTED_EFFECTS = new Set(Object.values(EFFECTS));
 const SUPPORTED_EXPLICIT_POSTURES = new Set([POSTURES.UNKNOWN, POSTURES.NOT_APPLICABLE]);
 const SUPPORTED_STRENGTHS = new Set(Object.values(STRENGTHS));
+const SUPPORTED_POLICY_HISTORY_POSTURES = new Set(Object.values(POLICY_HISTORY_POSTURES));
 
 export function validateInput(input = {}) {
   const issues = [];
@@ -22,6 +23,42 @@ export function validateInput(input = {}) {
   for (const field of ["rulebooks", "overlays", "grants", "denials", "receipts"]) {
     if (input[field] !== undefined && !Array.isArray(input[field])) {
       issues.push(issue(field, SOURCE_TYPES.VALIDATION, "invalid_collection", `${field} must be an array when supplied.`));
+    }
+  }
+
+  if (input.policyHistory !== undefined && !plainObject(input.policyHistory)) {
+    issues.push(issue("policyHistory", SOURCE_TYPES.VALIDATION, "invalid_policy_history", "policyHistory must be an object when supplied."));
+  }
+
+  return issues;
+}
+
+export function validatePolicyHistory(policyHistory) {
+  if (policyHistory === undefined) {
+    return [];
+  }
+
+  if (!plainObject(policyHistory)) {
+    return [issue("policyHistory", SOURCE_TYPES.VALIDATION, "invalid_policy_history", "policyHistory must be an object when supplied.")];
+  }
+
+  const issues = [];
+  if (policyHistory.posture !== undefined && !SUPPORTED_POLICY_HISTORY_POSTURES.has(policyHistory.posture)) {
+    issues.push(issue("policyHistory", SOURCE_TYPES.VALIDATION, "unsupported_policy_history_posture", "policyHistory posture is not supported."));
+  }
+
+  for (const field of [
+    "visibleRefs",
+    "partialRefs",
+    "desyncedRefs",
+    "unverifiedRefs",
+    "conflictRefs",
+    "supersessionRefs",
+    "revocationRefs",
+    "sourceBranchRefs"
+  ]) {
+    if (policyHistory[field] !== undefined && !Array.isArray(policyHistory[field])) {
+      issues.push(issue("policyHistory", SOURCE_TYPES.VALIDATION, "invalid_policy_history_refs", `policyHistory.${field} must be an array when supplied.`));
     }
   }
 

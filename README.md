@@ -92,3 +92,5 @@ take RBC from the current scaffold to an operational core.
 Operational release proof is tracked in
 [docs/release-checklist.md](docs/release-checklist.md). Mock/proto preparation
 guidance is in [docs/mock-proto-compatibility.md](docs/mock-proto-compatibility.md).
+Downstream adoption notes are in [docs/downstream-adoption.md](docs/downstream-adoption.md),
+and caller-supplied policy history is described in [docs/policy-history.md](docs/policy-history.md).

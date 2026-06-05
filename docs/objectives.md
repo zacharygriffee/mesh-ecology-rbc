@@ -273,14 +273,15 @@ Exit criteria:
 - Prepared mock/proto RBC compatibility fixture is tested.
 - Scalar compatibility/admissibility preservation and hash impact are tested.
 - Source boundary hardening is tested.
+- Fixture runner commands list and execute named operational proof bundles.
+- Caller-supplied policy-history posture is surfaced without reading causal
+  logs.
 
 ## Immediate Next Work
 
-1. Add a fixture runner script so downstream repos can execute named proof
-   bundles from the command line.
-2. Add release tagging guidance for the first operational v1 tag.
-3. Add downstream import notes for each repo family member as they adopt RBC.
-4. Add causal policy-history input shape and operational proof without reading
-   causal logs.
-5. Revisit structured `compatibility` and `admissibility` for v1.1 only after
+1. Add a named downstream proof profile for Edge writer-admission preparation.
+2. Add a named downstream proof profile for causal-substrate policy-history
+   pressure.
+3. Add an operator-requested v1 tag only after explicit instruction.
+4. Revisit structured `compatibility` and `admissibility` for v1.1 only after
    downstream proof shows scalar fields are insufficient.
