@@ -23,6 +23,7 @@ npm test
 npm run proof:list
 npm run proof:run
 npm run rbc:layer-boundary-pressure
+npm run rbc:layer-boundary-review
 node bin/rbc-proof.js receipt:transcript
 npm run release:check
 ```
@@ -111,20 +112,31 @@ Current implementation:
   not an RBC receipt, not governed seam, not Layer admission, not append
   capability application, not durable decision append, not authority, not
   production durability, and not swarm proof.
+- `npm run rbc:layer-boundary-review` consumes that packet as supplied
+  material and emits
+  `proof-artifacts/layer-rbc-boundary-review-evaluation/receipt.json`,
+  `readback.json`, and `transcript.json`.
+- Current follow-up receipt:
+  `rbc-evaluation-receipt:3464ecdcd9776950`
+  `sha256:3464ecdcd9776950310b25cad61c20159754ea490822c85cfdd2c9418e172b44`.
+  Readback:
+  `rbc-evaluation-readback:f4894423add8e852`
+  `sha256:f4894423add8e85214411efd90b80d7f03e777c338d810de52e7b5ea3cead473`.
+  Transcript:
+  `sha256:90461f3cbae32d800d709dfc7dfbb9363c69010fdee3d20a8e850af94c914316`.
+- The decision is `allowed` for the supplied boundary-review material only.
+  The receipt preserves remaining Layer blockers for accepted events, accepted
+  continuity, production storage, production append, and durable decision
+  append. It is not governed seam, Layer admission, append capability grant,
+  durable decision append, authority, production durability, or swarm proof.
 
 ## Next Useful Work
 
-RBC now has a new downstream packet and should consume it. The next pressure is
-to add and run a narrow `rbc:layer-boundary-review` path that reads Layer's
-`proof-artifacts/layer-rbc-boundary-review/packet.json` as supplied material and
-emits a fresh report-only evaluation receipt/readback/transcript.
-
-This receipt should answer the follow-up packet only. It must preserve the
-source Layer packet hash, source deferred RBC receipt hash, source follow-up
-hash, boundary-review packet hash, satisfied `layer_rbc_boundary_review` ref,
-resolved material refs, and remaining blocked refs. It should remain
-`local_supplied_material` unless RBC actually participates in a seam-governing
-crossing later.
+RBC has consumed the Layer boundary-review packet. The next pressure should
+move downstream to Layer: Layer should consume the new RBC receipt/readback as
+read-only supplied material and decide the next Layer-local packet or
+still-deferred posture. RBC should not continue solo work unless a new
+downstream packet or boundary question arrives.
 
 - preserve deterministic refs if the same packet is evaluated again;
 - keep proof fixtures operational rather than doc-only;

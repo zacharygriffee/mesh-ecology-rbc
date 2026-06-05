@@ -73,6 +73,21 @@ const checks = [
     ]
   },
   {
+    label: "Layer boundary review packet report-only evaluation",
+    command: process.execPath,
+    args: [
+      "scripts/evaluate-layer-boundary-review-packet.mjs",
+      "--packet",
+      "../mesh-ecology-layer/proof-artifacts/layer-rbc-boundary-review/packet.json",
+      "--receipt-out",
+      ".tmp/release-check-layer-boundary-review/receipt.json",
+      "--readback-out",
+      ".tmp/release-check-layer-boundary-review/readback.json",
+      "--transcript-out",
+      ".tmp/release-check-layer-boundary-review/transcript.json"
+    ]
+  },
+  {
     label: "package bin proof execution",
     command: npmCommand,
     args: ["exec", "--", "rbc-proof", "run", "edge-writer-admission-allowed"]
