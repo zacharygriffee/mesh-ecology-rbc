@@ -22,6 +22,7 @@ test("temporary consumer imports package export and resolves effective view", as
       resolvePolicyPackView
     } from 'mesh-ecology-rbc';
     import {
+      createReportOnlyReceiptProofTranscript,
       listOperationalProofFixtures,
       listReportOnlyReceiptProofFixtures,
       runReportOnlyReceiptProofSuite,
@@ -59,6 +60,7 @@ test("temporary consumer imports package export and resolves effective view", as
     const selectedProof = runOperationalProofSuite(['edge-writer-admission-allowed']);
     const receiptFixtureIds = listReportOnlyReceiptProofFixtures();
     const selectedReceiptProof = runReportOnlyReceiptProofSuite(['layer-writer-authorized']);
+    const selectedReceiptTranscript = createReportOnlyReceiptProofTranscript(['layer-writer-authorized']);
     const reportOnlyReceipt = resolveReportOnlyEvaluationReceipt({
       rulebookRef: 'rulebook.consumer',
       capabilityRef: 'capability:consumer-publish',
@@ -76,6 +78,7 @@ test("temporary consumer imports package export and resolves effective view", as
       selectedProof,
       receiptFixtureCount: receiptFixtureIds.length,
       selectedReceiptProof,
+      selectedReceiptTranscript,
       reportOnlyDecision: reportOnlyReceipt.receipt.decision,
       reportOnlyHashMatches: reportOnlyReceipt.readback.hashMatches,
       reportOnlyGovernedSeamClaim: reportOnlyReceipt.receipt.nonClaims.governedSeam,
@@ -103,6 +106,17 @@ test("temporary consumer imports package export and resolves effective view", as
     globalThis.__rbcConsumerResult.selectedReceiptProof[0].receiptRef,
     /^rbc-evaluation-receipt:[a-f0-9]{16}$/
   );
+  assert.equal(
+    globalThis.__rbcConsumerResult.selectedReceiptTranscript.transcriptVersion,
+    "rbc_report_only_receipt_proof_transcript.v1"
+  );
+  assert.deepEqual(globalThis.__rbcConsumerResult.selectedReceiptTranscript.fixtureIds, ["layer-writer-authorized"]);
+  assert.match(
+    globalThis.__rbcConsumerResult.selectedReceiptTranscript.transcriptHash,
+    /^sha256:[a-f0-9]{64}$/
+  );
+  assert.equal(globalThis.__rbcConsumerResult.selectedReceiptTranscript.results[0].readbackVerified, true);
+  assert.equal(globalThis.__rbcConsumerResult.selectedReceiptTranscript.results[0].nonClaims.governedSeam, false);
   assert.equal(globalThis.__rbcConsumerResult.reportOnlyDecision, "allowed");
   assert.equal(globalThis.__rbcConsumerResult.reportOnlyHashMatches, true);
   assert.equal(globalThis.__rbcConsumerResult.reportOnlyGovernedSeamClaim, false);

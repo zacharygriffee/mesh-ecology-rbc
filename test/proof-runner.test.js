@@ -115,3 +115,58 @@ test("receipt proof runner fails closed for unknown fixture name", () => {
   assert.notEqual(result.status, 0);
   assert.match(result.stderr, /Unknown report-only receipt proof fixture: missing-fixture/);
 });
+
+test("receipt:transcript emits deterministic report-only receipt proof JSON", () => {
+  const result = spawnSync(process.execPath, ["bin/rbc-proof.js", "receipt:transcript"], {
+    cwd: ".",
+    encoding: "utf8"
+  });
+  const repeatedResult = spawnSync(process.execPath, ["bin/rbc-proof.js", "receipt:transcript"], {
+    cwd: ".",
+    encoding: "utf8"
+  });
+
+  assert.equal(result.status, 0);
+  assert.equal(result.stdout, repeatedResult.stdout);
+
+  const transcript = JSON.parse(result.stdout);
+  assert.equal(transcript.transcriptVersion, "rbc_report_only_receipt_proof_transcript.v1");
+  assert.equal(transcript.proofRung, "local_supplied_material");
+  assert.deepEqual(transcript.fixtureIds.sort(), receiptFixtureIds);
+  assert.match(transcript.transcriptHash, /^sha256:[a-f0-9]{64}$/);
+
+  for (const entry of transcript.results) {
+    assert.match(entry.receiptRef, /^rbc-evaluation-receipt:[a-f0-9]{16}$/);
+    assert.match(entry.readbackRef, /^rbc-evaluation-readback:[a-f0-9]{16}$/);
+    assert.equal(entry.readbackVerified, true);
+    assert.equal(entry.nonClaims.governedSeam, false);
+  }
+});
+
+test("receipt:transcript emits selected report-only receipt proof JSON", () => {
+  const result = spawnSync(
+    process.execPath,
+    ["bin/rbc-proof.js", "receipt:transcript", "layer-writer-authorized"],
+    {
+      cwd: ".",
+      encoding: "utf8"
+    }
+  );
+
+  assert.equal(result.status, 0);
+  const transcript = JSON.parse(result.stdout);
+  assert.deepEqual(transcript.fixtureIds, ["layer-writer-authorized"]);
+  assert.equal(transcript.results.length, 1);
+  assert.equal(transcript.results[0].id, "layer-writer-authorized");
+  assert.equal(transcript.results[0].decision, "allowed");
+});
+
+test("receipt transcript runner fails closed for unknown fixture name", () => {
+  const result = spawnSync(process.execPath, ["bin/rbc-proof.js", "receipt:transcript", "missing-fixture"], {
+    cwd: ".",
+    encoding: "utf8"
+  });
+
+  assert.notEqual(result.status, 0);
+  assert.match(result.stderr, /Unknown report-only receipt proof fixture: missing-fixture/);
+});

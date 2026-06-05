@@ -289,6 +289,8 @@ Exit criteria:
   readback/hash proof and explicit non-claims.
 - Layer-oriented report-only receipt proof fixtures cover authorized,
   missing-review, hard-denied, and expired-grant paths.
+- Deterministic report-only receipt proof transcripts are exported and covered
+  by conformance, CLI, package-import, and release-check proof.
 
 ## Immediate Next Work
 

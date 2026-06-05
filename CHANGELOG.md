@@ -19,6 +19,7 @@
 - Added an executable release readiness proof gate.
 - Added report-only evaluation receipts with readback/hash proof.
 - Added Layer-oriented report-only receipt conformance fixtures.
+- Added deterministic report-only receipt proof transcripts.
 
 ## 0.0.0
 

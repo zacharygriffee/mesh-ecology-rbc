@@ -1,9 +1,11 @@
 import {
+  createReportOnlyReceiptProofTranscript,
   listOperationalProofFixtures,
   listReportOnlyReceiptProofFixtures,
   runReportOnlyReceiptProofSuite,
   runOperationalProofSuite
 } from "./index.js";
+import { stableStringify } from "../src/index.js";
 
 export function runProofCli(argv = process.argv.slice(2)) {
   const command = argv[0] ?? "run";
@@ -30,6 +32,11 @@ export function runProofCli(argv = process.argv.slice(2)) {
         console.log(`${result.id} ${result.decision} ${result.receiptRef} ${result.readbackRef}`);
       }
 
+      return 0;
+    }
+
+    if (command === "receipt:transcript") {
+      console.log(stableStringify(createReportOnlyReceiptProofTranscript(requestedIds)));
       return 0;
     }
 

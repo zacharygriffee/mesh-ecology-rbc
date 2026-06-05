@@ -83,8 +83,14 @@ Run:
 node bin/rbc-proof.js receipt:list
 node bin/rbc-proof.js receipt:run
 node bin/rbc-proof.js receipt:run layer-writer-authorized
+node bin/rbc-proof.js receipt:transcript
 ```
 
 These fixtures prove receipt/readback hashes, deterministic repeated output,
 source refs, trace refs, and non-claims. They are RBC-local evaluator proof,
 not Layer repo proof.
+
+`receipt:transcript` emits stable JSON with `transcriptHash`, fixture results,
+receipt/readback refs, source refs, trace refs, readback verification, and
+non-claims. It is an audit artifact over supplied material, not downstream
+consumption proof.

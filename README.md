@@ -40,6 +40,7 @@ npm run proof:list
 npm run proof:run
 node bin/rbc-proof.js receipt:list
 node bin/rbc-proof.js receipt:run
+node bin/rbc-proof.js receipt:transcript
 npm run release:check
 ```
 
@@ -109,16 +110,18 @@ Downstream repos can import executable proof support without importing from
 
 ```js
 import {
+  createReportOnlyReceiptProofTranscript,
   runOperationalProofSuite,
   runReportOnlyReceiptProofSuite
 } from "mesh-ecology-rbc/conformance";
 
 const results = runOperationalProofSuite(["edge-writer-admission-allowed"]);
 const receiptResults = runReportOnlyReceiptProofSuite(["layer-writer-authorized"]);
+const receiptTranscript = createReportOnlyReceiptProofTranscript(["layer-writer-authorized"]);
 ```
 
 The package also exposes `rbc-proof` for listing or running the same proof
-fixtures.
+fixtures and emitting stable report-only receipt proof transcripts.
 
 ## Status
 

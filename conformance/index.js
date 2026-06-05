@@ -1,10 +1,13 @@
 import {
   resolveEffectiveView,
   resolveReportOnlyEvaluationReceipt,
+  stableHash,
   verifyReportOnlyEvaluationReadback
 } from "../src/index.js";
 import { operationalProofFixtures } from "./fixtures/index.js";
 import { reportOnlyReceiptProofFixtures } from "./receipt-fixtures/index.js";
+
+export const REPORT_ONLY_RECEIPT_PROOF_TRANSCRIPT_VERSION = "rbc_report_only_receipt_proof_transcript.v1";
 
 export {
   operationalProofFixtures,
@@ -193,6 +196,42 @@ export function runReportOnlyReceiptProof(fixtureOrId) {
 
 export function runReportOnlyReceiptProofSuite(ids = []) {
   return selectedReceiptFixtures(ids).map(runReportOnlyReceiptProof);
+}
+
+export function createReportOnlyReceiptProofTranscript(ids = []) {
+  const fixtures = selectedReceiptFixtures(ids);
+  const results = fixtures.map((fixture) => {
+    runReportOnlyReceiptProof(fixture);
+
+    const { receipt, readback } = resolveReportOnlyEvaluationReceipt(fixture.input);
+
+    return {
+      id: fixture.id,
+      decision: receipt.decision,
+      posture: receipt.posture,
+      receiptRef: receipt.receiptRef,
+      receiptHash: receipt.receiptHash,
+      readbackRef: readback.readbackRef,
+      readbackHash: readback.readbackHash,
+      effectiveViewRef: receipt.effectiveViewRef,
+      sourceRefs: receipt.sourceRefs,
+      traceRefs: receipt.traceRefs,
+      nonClaims: receipt.nonClaims,
+      readbackVerified: verifyReportOnlyEvaluationReadback(receipt, readback)
+    };
+  });
+  const transcriptBody = {
+    transcriptVersion: REPORT_ONLY_RECEIPT_PROOF_TRANSCRIPT_VERSION,
+    proofRung: "local_supplied_material",
+    mode: "report_only",
+    fixtureIds: fixtures.map((fixture) => fixture.id),
+    results
+  };
+
+  return {
+    transcriptHash: `sha256:${stableHash(transcriptBody)}`,
+    ...transcriptBody
+  };
 }
 
 function selectedFixtures(ids) {

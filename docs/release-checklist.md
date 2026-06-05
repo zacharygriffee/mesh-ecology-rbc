@@ -24,6 +24,8 @@ check.
 - `rbc-proof run <fixture-id>` executes selected proof fixtures and fails
   closed on unknown names.
 - `rbc-proof receipt:run` executes named report-only receipt proof fixtures.
+- `rbc-proof receipt:transcript` emits deterministic report-only receipt proof
+  JSON with readback/hash verification and non-claims.
 - Operational fixtures resolve expected postures with mandatory trace.
 - Operational fixtures validate deterministic repeated refs, required receipts,
   unresolved source refs, and policy-history posture where applicable.
@@ -59,6 +61,7 @@ npm run proof:list
 npm run proof:run
 rbc-proof run edge-writer-admission-allowed
 rbc-proof receipt:run layer-writer-authorized
+rbc-proof receipt:transcript layer-writer-authorized
 git tag -a v1.0.0 -m "mesh-ecology-rbc operational v1"
 git push origin v1.0.0
 ```

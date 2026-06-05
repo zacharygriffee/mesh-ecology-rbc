@@ -48,6 +48,16 @@ const checks = [
     args: ["bin/rbc-proof.js", "receipt:run", "layer-writer-authorized", "layer-writer-hard-denied"]
   },
   {
+    label: "full report-only receipt proof transcript",
+    command: process.execPath,
+    args: ["bin/rbc-proof.js", "receipt:transcript"]
+  },
+  {
+    label: "selected report-only receipt proof transcript",
+    command: process.execPath,
+    args: ["bin/rbc-proof.js", "receipt:transcript", "layer-writer-authorized"]
+  },
+  {
     label: "package bin proof execution",
     command: npmCommand,
     args: ["exec", "--", "rbc-proof", "run", "edge-writer-admission-allowed"]
@@ -56,6 +66,11 @@ const checks = [
     label: "package bin report-only receipt proof execution",
     command: npmCommand,
     args: ["exec", "--", "rbc-proof", "receipt:run", "layer-writer-authorized"]
+  },
+  {
+    label: "package bin report-only receipt transcript execution",
+    command: npmCommand,
+    args: ["exec", "--", "rbc-proof", "receipt:transcript", "layer-writer-authorized"]
   },
   {
     label: "package dry run",

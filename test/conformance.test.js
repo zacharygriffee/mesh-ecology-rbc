@@ -3,10 +3,12 @@ import test from "node:test";
 
 import { stableStringify } from "../src/index.js";
 import {
+  createReportOnlyReceiptProofTranscript,
   listOperationalProofFixtures,
   listReportOnlyReceiptProofFixtures,
   operationalProofFixtures,
   reportOnlyReceiptProofFixtures,
+  REPORT_ONLY_RECEIPT_PROOF_TRANSCRIPT_VERSION,
   runReportOnlyReceiptProof,
   runReportOnlyReceiptProofSuite,
   runOperationalProof,
@@ -68,6 +70,42 @@ test("conformance API does not mutate report-only receipt proof fixtures", () =>
   const before = stableStringify(reportOnlyReceiptProofFixtures);
 
   runReportOnlyReceiptProofSuite();
+  createReportOnlyReceiptProofTranscript();
 
   assert.equal(stableStringify(reportOnlyReceiptProofFixtures), before);
+});
+
+test("conformance API creates deterministic report-only receipt proof transcript", () => {
+  const transcript = createReportOnlyReceiptProofTranscript();
+  const repeatedTranscript = createReportOnlyReceiptProofTranscript();
+
+  assert.deepEqual(transcript, repeatedTranscript);
+  assert.equal(transcript.transcriptVersion, REPORT_ONLY_RECEIPT_PROOF_TRANSCRIPT_VERSION);
+  assert.equal(transcript.proofRung, "local_supplied_material");
+  assert.equal(transcript.mode, "report_only");
+  assert.deepEqual(transcript.fixtureIds.sort(), listReportOnlyReceiptProofFixtures().sort());
+  assert.match(transcript.transcriptHash, /^sha256:[a-f0-9]{64}$/);
+
+  for (const result of transcript.results) {
+    assert.equal(result.readbackVerified, true);
+    assert.match(result.receiptHash, /^sha256:[a-f0-9]{64}$/);
+    assert.match(result.readbackHash, /^sha256:[a-f0-9]{64}$/);
+    assert.match(result.effectiveViewRef, /^rbc-view:[a-f0-9]{64}$/);
+    assert.ok(result.sourceRefs.length > 0);
+    assert.ok(result.traceRefs.length > 0);
+    assert.equal(result.nonClaims.governedSeam, false);
+    assert.equal(result.nonClaims.seamTransport, false);
+    assert.equal(result.nonClaims.downstreamConsumption, false);
+  }
+});
+
+test("conformance API creates selected report-only receipt proof transcript", () => {
+  const selected = createReportOnlyReceiptProofTranscript(["layer-writer-authorized"]);
+  const full = createReportOnlyReceiptProofTranscript();
+
+  assert.deepEqual(selected.fixtureIds, ["layer-writer-authorized"]);
+  assert.equal(selected.results.length, 1);
+  assert.equal(selected.results[0].id, "layer-writer-authorized");
+  assert.equal(selected.results[0].decision, "allowed");
+  assert.notEqual(selected.transcriptHash, full.transcriptHash);
 });

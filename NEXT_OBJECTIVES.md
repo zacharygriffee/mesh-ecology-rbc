@@ -22,6 +22,7 @@ Current proof commands:
 npm test
 npm run proof:list
 npm run proof:run
+node bin/rbc-proof.js receipt:transcript
 npm run release:check
 ```
 
@@ -84,10 +85,14 @@ Current implementation:
 - `createReportOnlyEvaluationReadback(receipt)`
 - `verifyReportOnlyEvaluationReadback(receipt, readback)`
 - `runReportOnlyReceiptProofSuite(ids)`
+- `createReportOnlyReceiptProofTranscript(ids)`
 - proof remains `local_supplied_material`
 - covered by `npm test` and `npm run release:check`
 - Layer-oriented receipt proof fixtures cover authorized, missing-review,
   hard-denied, and expired-grant paths.
+- deterministic transcript output preserves receipt/readback hashes, source
+  refs, trace refs, and non-claims for audit without claiming downstream
+  consumption.
 
 ## Next Useful Work
 
