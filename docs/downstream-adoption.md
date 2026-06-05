@@ -47,8 +47,16 @@ Run:
 ```bash
 npm run proof:list
 npm run proof:run
-node scripts/proof-runner.js run edge-writer-admission-allowed
-node scripts/proof-runner.js run causal-policy-history-conflict
+rbc-proof run edge-writer-admission-allowed
+rbc-proof run causal-policy-history-conflict
+```
+
+Or import the conformance surface:
+
+```js
+import { runOperationalProofSuite } from "mesh-ecology-rbc/conformance";
+
+runOperationalProofSuite(["edge-writer-admission-allowed"]);
 ```
 
 ## Platform

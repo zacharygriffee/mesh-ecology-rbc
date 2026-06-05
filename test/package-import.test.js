@@ -20,6 +20,10 @@ test("temporary consumer imports package export and resolves effective view", as
       resolveEffectiveView,
       resolvePolicyPackView
     } from 'mesh-ecology-rbc';
+    import {
+      listOperationalProofFixtures,
+      runOperationalProofSuite
+    } from 'mesh-ecology-rbc/conformance';
 
     const input = {
       basis: {
@@ -48,6 +52,8 @@ test("temporary consumer imports package export and resolves effective view", as
       },
       time: input.time
     });
+    const fixtureIds = listOperationalProofFixtures();
+    const selectedProof = runOperationalProofSuite(['edge-writer-admission-allowed']);
 
     globalThis.__rbcConsumerResult = {
       version: EFFECTIVE_VIEW_VERSION,
@@ -55,6 +61,8 @@ test("temporary consumer imports package export and resolves effective view", as
       packedPosture: packed.posture,
       directRef: direct.effectiveViewRef,
       packedRef: packed.effectiveViewRef,
+      fixtureCount: fixtureIds.length,
+      selectedProof,
       traceLength: direct.trace.length,
       nonClaims: direct.nonClaims
     };
@@ -66,6 +74,12 @@ test("temporary consumer imports package export and resolves effective view", as
   assert.equal(globalThis.__rbcConsumerResult.directPosture, "allowed");
   assert.equal(globalThis.__rbcConsumerResult.packedPosture, "allowed");
   assert.equal(globalThis.__rbcConsumerResult.directRef, globalThis.__rbcConsumerResult.packedRef);
+  assert.equal(globalThis.__rbcConsumerResult.fixtureCount, 11);
+  assert.deepEqual(globalThis.__rbcConsumerResult.selectedProof, [{
+    id: "edge-writer-admission-allowed",
+    posture: "allowed",
+    effectiveViewRef: "rbc-view:401ba7d7c528585b5bafd732704b39d81ae08a365c4af8bea7a5b338fe680bd3"
+  }]);
   assert.ok(globalThis.__rbcConsumerResult.traceLength > 0);
   assert.equal(globalThis.__rbcConsumerResult.nonClaims.authority, false);
   delete globalThis.__rbcConsumerResult;

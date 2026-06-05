@@ -5,13 +5,17 @@
   "type": "module",
   "main": "./src/index.js",
   "exports": {
-    ".": "./src/index.js"
+    ".": "./src/index.js",
+    "./conformance": "./conformance/index.js"
+  },
+  "bin": {
+    "rbc-proof": "./bin/rbc-proof.js"
   },
   "scripts": {
     "test": "node --test",
     "example": "node examples/basic-resolution.js",
-    "proof:list": "node scripts/proof-runner.js list",
-    "proof:run": "node scripts/proof-runner.js run"
+    "proof:list": "node bin/rbc-proof.js list",
+    "proof:run": "node bin/rbc-proof.js run"
   },
   "keywords": [
     "mesh-ecology",

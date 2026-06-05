@@ -36,6 +36,8 @@ relevant constraints, and returns a traceable posture.
 ```bash
 npm test
 npm run example
+npm run proof:list
+npm run proof:run
 ```
 
 ```js
@@ -78,6 +80,20 @@ const view = resolveEffectiveView({
 The resolver does not read files, call the network, use hidden clocks, mutate
 global state, or generate random IDs. If time matters, pass it as `time` or
 `basis.timeRef`.
+
+## Operational Conformance
+
+Downstream repos can import executable proof support without importing from
+`test/`:
+
+```js
+import { runOperationalProofSuite } from "mesh-ecology-rbc/conformance";
+
+const results = runOperationalProofSuite(["edge-writer-admission-allowed"]);
+```
+
+The package also exposes `rbc-proof` for listing or running the same proof
+fixtures.
 
 ## Status
 

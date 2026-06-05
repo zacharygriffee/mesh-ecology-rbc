@@ -7,10 +7,12 @@ checklist alone.
 
 - `npm test` passes.
 - A temporary consumer can import `mesh-ecology-rbc` through the package export.
+- A temporary consumer can import `mesh-ecology-rbc/conformance` through the
+  package export.
 - `npm run proof:list` prints named operational proof fixtures.
 - `npm run proof:run` executes named operational proof fixtures.
-- `node scripts/proof-runner.js run <fixture-id>` executes selected proof
-  fixtures and fails closed on unknown names.
+- `rbc-proof run <fixture-id>` executes selected proof fixtures and fails
+  closed on unknown names.
 - Operational fixtures resolve expected postures with mandatory trace.
 - Operational fixtures validate deterministic repeated refs, required receipts,
   unresolved source refs, and policy-history posture where applicable.
@@ -39,6 +41,7 @@ npm test
 npm run example
 npm run proof:list
 npm run proof:run
+rbc-proof run edge-writer-admission-allowed
 git tag -a v1.0.0 -m "mesh-ecology-rbc operational v1"
 git push origin v1.0.0
 ```

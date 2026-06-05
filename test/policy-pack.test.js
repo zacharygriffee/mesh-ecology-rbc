@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 
 import { resolveEffectiveView, resolvePolicyPackView, stableStringify } from "../src/index.js";
-import publicPublishWithReviewReceipt from "./fixtures/operational/public-publish-with-review-receipt.js";
+import publicPublishWithReviewReceipt from "../conformance/fixtures/public-publish-with-review-receipt.js";
 
 function packFrom(input) {
   return {

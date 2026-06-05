@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 
 import { resolveEffectiveView } from "../src/index.js";
-import protoStylePublishPrepared from "./fixtures/operational/proto-style-publish-prepared.js";
+import protoStylePublishPrepared from "../conformance/fixtures/proto-style-publish-prepared.js";
 
 test("prepared mock/proto RBC shape resolves as plain declarative RBC input", () => {
   const view = resolveEffectiveView(protoStylePublishPrepared);

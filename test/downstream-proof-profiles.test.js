@@ -2,15 +2,15 @@ import assert from "node:assert/strict";
 import test from "node:test";
 
 import { resolveEffectiveView } from "../src/index.js";
-import causalPolicyHistoryConflict from "./fixtures/operational/causal-policy-history-conflict.js";
-import causalPolicyHistoryDesynced from "./fixtures/operational/causal-policy-history-desynced.js";
-import causalPolicyHistoryPartial from "./fixtures/operational/causal-policy-history-partial.js";
-import causalPolicyHistoryRevokedSuperseded from "./fixtures/operational/causal-policy-history-revoked-superseded.js";
-import causalPolicyHistorySynced from "./fixtures/operational/causal-policy-history-synced.js";
-import causalPolicyHistoryUnverified from "./fixtures/operational/causal-policy-history-unverified.js";
-import edgeWriterAdmissionAllowed from "./fixtures/operational/edge-writer-admission-allowed.js";
-import edgeWriterAdmissionHardDenied from "./fixtures/operational/edge-writer-admission-hard-denied.js";
-import edgeWriterAdmissionRequiresReview from "./fixtures/operational/edge-writer-admission-requires-review.js";
+import causalPolicyHistoryConflict from "../conformance/fixtures/causal-policy-history-conflict.js";
+import causalPolicyHistoryDesynced from "../conformance/fixtures/causal-policy-history-desynced.js";
+import causalPolicyHistoryPartial from "../conformance/fixtures/causal-policy-history-partial.js";
+import causalPolicyHistoryRevokedSuperseded from "../conformance/fixtures/causal-policy-history-revoked-superseded.js";
+import causalPolicyHistorySynced from "../conformance/fixtures/causal-policy-history-synced.js";
+import causalPolicyHistoryUnverified from "../conformance/fixtures/causal-policy-history-unverified.js";
+import edgeWriterAdmissionAllowed from "../conformance/fixtures/edge-writer-admission-allowed.js";
+import edgeWriterAdmissionHardDenied from "../conformance/fixtures/edge-writer-admission-hard-denied.js";
+import edgeWriterAdmissionRequiresReview from "../conformance/fixtures/edge-writer-admission-requires-review.js";
 
 test("edge writer-admission profile allows only reviewed scoped admission", () => {
   const view = resolveEffectiveView(edgeWriterAdmissionAllowed);

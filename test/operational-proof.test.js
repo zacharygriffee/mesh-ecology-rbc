@@ -2,8 +2,8 @@ import assert from "node:assert/strict";
 import test from "node:test";
 
 import { resolveEffectiveView, stableStringify } from "../src/index.js";
-import privatePublishHardDenied from "./fixtures/operational/private-publish-hard-denied.js";
-import publicPublishWithReviewReceipt from "./fixtures/operational/public-publish-with-review-receipt.js";
+import privatePublishHardDenied from "../conformance/fixtures/private-publish-hard-denied.js";
+import publicPublishWithReviewReceipt from "../conformance/fixtures/public-publish-with-review-receipt.js";
 
 test("operational proof allows reviewed public publish without claiming authority", () => {
   const view = resolveEffectiveView(publicPublishWithReviewReceipt);

@@ -2,4 +2,4 @@
 
 import { runProofCli } from "../conformance/cli.js";
 
-process.exitCode = runProofCli(process.argv.slice(2));
+process.exitCode = runProofCli();

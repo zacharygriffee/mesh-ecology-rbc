@@ -282,11 +282,13 @@ Exit criteria:
   partial, desynced, unverified, conflict, revoked, and superseded paths.
 - Proof runner validates deterministic repeated refs, receipt expectations,
   unresolved source refs, and policy-history posture for named fixtures.
+- Operational conformance proof is exported from `mesh-ecology-rbc/conformance`
+  for downstream-style imports without importing from `test/`.
 
 ## Immediate Next Work
 
 1. Add an operator-requested v1 tag only after explicit instruction.
 2. Revisit structured `compatibility` and `admissibility` for v1.1 only after
    downstream proof shows scalar fields are insufficient.
-3. Add downstream-owned conformance import proof once Edge or causal-substrate
-   imports RBC directly.
+3. Add downstream-owned conformance proof once Edge or causal-substrate imports
+   and runs RBC directly.

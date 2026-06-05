@@ -2,14 +2,14 @@ import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
 import test from "node:test";
 
-import { operationalProofFixtures } from "./fixtures/operational/index.js";
+import { operationalProofFixtures } from "../conformance/index.js";
 
 const fixtureIds = Object.values(operationalProofFixtures)
   .map((fixture) => fixture.id)
   .sort();
 
 test("proof:list prints named operational proof fixtures", () => {
-  const result = spawnSync(process.execPath, ["scripts/proof-runner.js", "list"], {
+  const result = spawnSync(process.execPath, ["bin/rbc-proof.js", "list"], {
     cwd: ".",
     encoding: "utf8"
   });
@@ -19,7 +19,7 @@ test("proof:list prints named operational proof fixtures", () => {
 });
 
 test("proof:run executes all named operational proof fixtures", () => {
-  const result = spawnSync(process.execPath, ["scripts/proof-runner.js", "run"], {
+  const result = spawnSync(process.execPath, ["bin/rbc-proof.js", "run"], {
     cwd: ".",
     encoding: "utf8"
   });
@@ -36,7 +36,7 @@ test("proof:run executes all named operational proof fixtures", () => {
 test("proof:run executes selected named operational proof fixtures", () => {
   const result = spawnSync(
     process.execPath,
-    ["scripts/proof-runner.js", "run", "edge-writer-admission-allowed", "causal-policy-history-conflict"],
+    ["bin/rbc-proof.js", "run", "edge-writer-admission-allowed", "causal-policy-history-conflict"],
     {
       cwd: ".",
       encoding: "utf8"
@@ -50,7 +50,7 @@ test("proof:run executes selected named operational proof fixtures", () => {
 });
 
 test("proof runner fails closed for unknown fixture name", () => {
-  const result = spawnSync(process.execPath, ["scripts/proof-runner.js", "run", "missing-fixture"], {
+  const result = spawnSync(process.execPath, ["bin/rbc-proof.js", "run", "missing-fixture"], {
     cwd: ".",
     encoding: "utf8"
   });

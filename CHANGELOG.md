@@ -15,6 +15,7 @@
 - Added Edge writer-admission and causal policy-history pressure operational
   proof profiles.
 - Added trace rows for caller-supplied unresolved policy-history refs.
+- Added public operational conformance exports and the `rbc-proof` CLI.
 
 ## 0.0.0
 

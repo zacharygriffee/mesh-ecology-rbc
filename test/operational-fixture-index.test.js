@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 
 import { resolveEffectiveView } from "../src/index.js";
-import { operationalProofFixtures } from "./fixtures/operational/index.js";
+import { operationalProofFixtures } from "../conformance/index.js";
 
 test("operational fixture index exposes named proof bundles", () => {
   assert.deepEqual(Object.keys(operationalProofFixtures).sort(), [
