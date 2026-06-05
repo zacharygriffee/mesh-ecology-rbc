@@ -102,14 +102,29 @@ Current implementation:
 - The concrete Layer packet evaluation currently emits a report-only
   `deferred` receipt because Layer supplied a review/approval boundary, not an
   authority grant.
+- Layer has now produced concrete boundary-review material:
+  `../mesh-ecology-layer/proof-artifacts/layer-rbc-boundary-review/packet.json`
+  with packet hash
+  `2df268eeb6500e8463a6f158e6f66cdfbb032a5487b86a61829c187303863707`.
+  That packet satisfies `layer_rbc_boundary_review` as supplied material and
+  cites Layer's append-capability operator decision as review material. It is
+  not an RBC receipt, not governed seam, not Layer admission, not append
+  capability application, not durable decision append, not authority, not
+  production durability, and not swarm proof.
 
 ## Next Useful Work
 
-RBC has now consumed the concrete Layer boundary pressure packet as supplied
-material. The next pressure should move downstream: Layer should consume the RBC
-receipt/readback as read-only evaluation material and decide what its own next
-Layer-local operation needs. RBC should only continue solo work when a new
-downstream packet or boundary question arrives.
+RBC now has a new downstream packet and should consume it. The next pressure is
+to add and run a narrow `rbc:layer-boundary-review` path that reads Layer's
+`proof-artifacts/layer-rbc-boundary-review/packet.json` as supplied material and
+emits a fresh report-only evaluation receipt/readback/transcript.
+
+This receipt should answer the follow-up packet only. It must preserve the
+source Layer packet hash, source deferred RBC receipt hash, source follow-up
+hash, boundary-review packet hash, satisfied `layer_rbc_boundary_review` ref,
+resolved material refs, and remaining blocked refs. It should remain
+`local_supplied_material` unless RBC actually participates in a seam-governing
+crossing later.
 
 - preserve deterministic refs if the same packet is evaluated again;
 - keep proof fixtures operational rather than doc-only;
@@ -117,5 +132,6 @@ downstream packet or boundary question arrives.
 - keep caller-supplied policy history explicit;
 - keep adapters as data suppliers outside the resolver core;
 - do not claim governed seam from local receipt generation alone;
-- do not claim the Layer packet evaluation grants Layer admission, append
-  capability, authority, production durability, or seam transport.
+- do not claim the Layer boundary-review packet evaluation grants Layer
+  admission, append capability, durable decision append, authority, production
+  durability, or seam transport.
