@@ -33,6 +33,7 @@ export const STRENGTHS = Object.freeze({
 
 export const DEFAULT_COMPATIBILITY = "compatible";
 export const DEFAULT_ADMISSIBILITY = "not_applicable";
+export const EFFECTIVE_VIEW_VERSION = "effective_view.v1";
 
 export const NON_CLAIMS = Object.freeze({
   execution: false,

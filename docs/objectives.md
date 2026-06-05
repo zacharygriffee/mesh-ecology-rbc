@@ -256,14 +256,26 @@ Exit criteria:
 - No operational release includes networking, persistence, execution, or
   authority ownership in core.
 
+## Completed Operational Proof Gates
+
+- Runtime validation produces deterministic unresolved or mediation posture.
+- Input mutation safety is tested.
+- Invalid time and malformed material are tested.
+- Source order and precedence details are present in trace.
+- Non-overridable parent constraints are tested.
+- `effective_view.v1` is emitted as `viewVersion`.
+- All public postures have executable fixtures.
+- Receipt states are tested.
+- Pure policy-pack resolution is tested.
+- Adapter-shaped data prepared outside RBC resolves identically to plain data.
+
 ## Immediate Next Work
 
-1. Add runtime validation with deterministic unresolved/error posture.
-2. Add input mutation-safety tests.
-3. Add invalid time and malformed grant/denial tests.
-4. Add source-order and precedence detail to trace.
-5. Add non-overridable parent constraint semantics.
-6. Draft `effective_view.v1` field contract.
-7. Add conformance fixtures for every posture.
-8. Add an operational proof fixture that resolves a realistic downstream
-   basis through rulebooks, overlays, grants, denials, receipts, and trace.
+1. Add a changelog and v1 release checklist.
+2. Add package import smoke proof from a temporary consumer directory.
+3. Add compatibility notes for downstream repos that currently have mock RBC
+   shapes.
+4. Add a fixture index so downstream repos can run the operational proof bundle
+   by name.
+5. Decide whether `compatibility` and `admissibility` remain scalar fields in
+   v1 or become structured objects in v1.1.

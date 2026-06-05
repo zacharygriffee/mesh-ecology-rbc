@@ -1,6 +1,7 @@
 import {
   DEFAULT_ADMISSIBILITY,
   DEFAULT_COMPATIBILITY,
+  EFFECTIVE_VIEW_VERSION,
   EFFECTS,
   NON_CLAIMS,
   SOURCE_TYPES,
@@ -82,6 +83,7 @@ export function resolveEffectiveView(input = {}) {
   ];
 
   const matches = {
+    notApplicable: explicitPostureSources(ruleSources, "not_applicable"),
     denials: [
       ...ruleSources.filter(isDeny),
       ...denialSources
@@ -92,6 +94,7 @@ export function resolveEffectiveView(input = {}) {
       ...ruleSources.filter((source) => source.effect === EFFECTS.ALLOW),
       ...activeGrantSources
     ],
+    unknown: explicitPostureSources(ruleSources, "unknown"),
     conflicts,
     unresolved
   };
@@ -126,6 +129,7 @@ export function resolveEffectiveView(input = {}) {
   ]);
 
   const viewWithoutRef = {
+    viewVersion: EFFECTIVE_VIEW_VERSION,
     posture: decision.posture,
     basis,
     effects,
@@ -162,6 +166,7 @@ function ruleSource(entry) {
     rulebookRef: entry.rulebookRef,
     overlayRef: entry.overlayRef,
     effect: rule.effect,
+    posture: rule.posture,
     strength: rule.strength ?? STRENGTHS.NORMAL,
     priority: rule.priority ?? 0,
     nonOverridable: rule.nonOverridable === true,
@@ -178,6 +183,7 @@ function materialSource(material, sourceType, sourceOrder = null) {
     id: material.id,
     sourceType,
     effect: material.effect,
+    posture: material.posture,
     strength: material.strength ?? STRENGTHS.NORMAL,
     nonOverridable: material.nonOverridable === true,
     sourceOrder,
@@ -231,6 +237,7 @@ function sourceTrace(source, decision, winningIds, satisfiedReviewRules) {
     sourceRef: source.id,
     sourceType: source.sourceType,
     effect: source.effect,
+    posture: source.posture,
     status: sourceStatus(source, satisfiedReviewRules),
     role: sourceRole(source, decision, winningIds),
     reason: source.reason,
@@ -547,4 +554,13 @@ function sourceRole(source, decision, winningIds) {
   }
 
   return "applied";
+}
+
+function explicitPostureSources(ruleSources, posture) {
+  return ruleSources
+    .filter((source) => source.posture === posture)
+    .map((source) => ({
+      ...source,
+      effect: source.effect ?? posture
+    }));
 }

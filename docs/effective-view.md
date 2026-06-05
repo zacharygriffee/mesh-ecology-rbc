@@ -5,6 +5,7 @@ basis.
 
 ```js
 {
+  viewVersion: "effective_view.v1",
   effectiveViewRef: "rbc-view:<stable-hash>",
   posture: "requires_review",
   basis,
@@ -48,11 +49,15 @@ basis.
 - `requires_review`: a matching rule requires review or receipts before the
   action can be treated as allowed.
 - `provisional`: a matching rule allows only provisional posture.
-- `unknown`: reserved for callers that need an explicit unknown posture.
+- `unknown`: explicit rule material says the action is known but unresolved by
+  current rule material.
 - `requires_mediation`: no matching material resolved the basis, or ambiguity
   must be surfaced.
-- `not_applicable`: reserved for contexts where RBC is intentionally not the
-  deciding mechanism.
+- `not_applicable`: explicit rule material says this basis is outside the RBC
+  decision boundary.
+
+The default no-match posture is `requires_mediation`, not `unknown`, so unknown
+operations are not silently allowed.
 
 ## Trace
 
@@ -75,3 +80,8 @@ Trace entries include a `role` when relevant:
 The effective view contract is considered successful only when executable tests
 prove the resolver behavior. Documentation, semantic checks, and schema checks
 are supporting gates, not proof of success by themselves.
+
+## Versioning
+
+`viewVersion` is `effective_view.v1` for the current contract. `effectiveViewRef`
+is the canonical stable ref. `effectiveRulebookViewRef` is not emitted in v1.

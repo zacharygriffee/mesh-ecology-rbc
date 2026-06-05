@@ -1,6 +1,14 @@
 import { EFFECTS, POSTURES, SOURCE_TYPES, STRENGTHS } from "./constants.js";
 
 export function choosePosture(matches) {
+  if (matches.notApplicable.length > 0) {
+    return {
+      posture: POSTURES.NOT_APPLICABLE,
+      winningSources: matches.notApplicable,
+      precedence: "not_applicable"
+    };
+  }
+
   const hardDenials = matches.denials.filter((source) => source.strength === STRENGTHS.HARD);
   if (hardDenials.length > 0) {
     return {
@@ -56,6 +64,14 @@ export function choosePosture(matches) {
       posture: POSTURES.ALLOWED,
       winningSources: matches.allows,
       precedence: "scoped_allow"
+    };
+  }
+
+  if (matches.unknown.length > 0) {
+    return {
+      posture: POSTURES.UNKNOWN,
+      winningSources: matches.unknown,
+      precedence: "explicit_unknown"
     };
   }
 

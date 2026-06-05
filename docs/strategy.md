@@ -25,3 +25,7 @@ stable ref.
 Adapters for causal history, storage, transport, receipts, policy packs, and
 networked material belong outside this core until the pure semantics are
 stable.
+
+Policy-pack support in v1 remains pure data mapping. Adapter-shaped data is
+prepared outside RBC and must resolve identically to equivalent plain resolver
+input.

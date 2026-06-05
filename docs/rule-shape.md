@@ -93,3 +93,41 @@ receipts.
 
 Expired, revoked, invalid, superseded, or malformed receipt evidence is
 traceable and does not satisfy required receipts.
+
+## Explicit Posture Rules
+
+Rules normally use `effect`. A rule may instead provide an explicit `posture`
+of `unknown` or `not_applicable` when the action is intentionally unresolved or
+outside the RBC decision boundary.
+
+```js
+{
+  id: "rule.presentation-not-rbc",
+  posture: "not_applicable",
+  when: {
+    contextRef: "context:presentation-only"
+  },
+  reason: "Presentation-only preview is outside this RBC decision boundary."
+}
+```
+
+## Policy Pack
+
+A policy pack is plain data. It can bundle rulebooks, overlays, grants,
+denials, and fixtures for caller convenience.
+
+```js
+{
+  id: "policy-pack.edge-publication",
+  version: "0.1.0",
+  rulebooks: [],
+  overlays: [],
+  grants: [],
+  denials: [],
+  fixtures: []
+}
+```
+
+`resolvePolicyPackView({ basis, facts, pack, receipts, time })` is a pure
+wrapper around `resolveEffectiveView`. It does not load, store, discover, or
+own policy packs.

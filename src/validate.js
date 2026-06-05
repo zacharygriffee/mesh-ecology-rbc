@@ -1,6 +1,7 @@
-import { EFFECTS, SOURCE_TYPES, STRENGTHS } from "./constants.js";
+import { EFFECTS, POSTURES, SOURCE_TYPES, STRENGTHS } from "./constants.js";
 
 const SUPPORTED_EFFECTS = new Set(Object.values(EFFECTS));
+const SUPPORTED_EXPLICIT_POSTURES = new Set([POSTURES.UNKNOWN, POSTURES.NOT_APPLICABLE]);
 const SUPPORTED_STRENGTHS = new Set(Object.values(STRENGTHS));
 
 export function validateInput(input = {}) {
@@ -40,8 +41,8 @@ export function validateRuleEntry(entry) {
     issues.push(issue(sourceRef, SOURCE_TYPES.RULE, "missing_id", "Rule must have a string id."));
   }
 
-  if (!SUPPORTED_EFFECTS.has(rule.effect)) {
-    issues.push(issue(sourceRef, SOURCE_TYPES.RULE, "unsupported_effect", "Rule effect is not supported."));
+  if (!SUPPORTED_EFFECTS.has(rule.effect) && !SUPPORTED_EXPLICIT_POSTURES.has(rule.posture)) {
+    issues.push(issue(sourceRef, SOURCE_TYPES.RULE, "unsupported_effect", "Rule effect or explicit posture is not supported."));
   }
 
   if (rule.strength !== undefined && !SUPPORTED_STRENGTHS.has(rule.strength)) {
