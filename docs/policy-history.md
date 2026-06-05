@@ -34,4 +34,14 @@ If no posture is supplied, RBC infers one from supplied refs:
 - otherwise the posture is `policy_history_synced`
 
 Revocation, supersession, and conflict-observed refs are surfaced as unresolved
-policy material so they cannot silently allow a posture.
+policy material so they cannot silently allow a posture. Revocation and
+supersession refs also receive trace entries.
+
+Executable proof fixtures:
+
+- `causal-policy-history-synced`
+- `causal-policy-history-partial`
+- `causal-policy-history-desynced`
+- `causal-policy-history-unverified`
+- `causal-policy-history-conflict`
+- `causal-policy-history-revoked-superseded`

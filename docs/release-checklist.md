@@ -9,7 +9,11 @@ checklist alone.
 - A temporary consumer can import `mesh-ecology-rbc` through the package export.
 - `npm run proof:list` prints named operational proof fixtures.
 - `npm run proof:run` executes named operational proof fixtures.
+- `node scripts/proof-runner.js run <fixture-id>` executes selected proof
+  fixtures and fails closed on unknown names.
 - Operational fixtures resolve expected postures with mandatory trace.
+- Operational fixtures validate deterministic repeated refs, required receipts,
+  unresolved source refs, and policy-history posture where applicable.
 - Effective views emit `viewVersion: "effective_view.v1"`.
 - Stable refs are deterministic for equivalent input.
 - Input material is not mutated.

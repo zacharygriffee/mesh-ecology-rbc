@@ -113,6 +113,7 @@ export function resolveEffectiveView(input = {}) {
     ...grantEvaluations.map(grantTrace),
     ...receiptEvaluations.map(receiptTrace),
     policyHistoryTrace(policyHistory),
+    ...policyHistory.unresolvedSources.map(unresolvedSourceTrace),
     ...conflicts.map(conflictTrace),
     ...validationIssues.map(validationTrace),
     ...defaultTrace(decision, ruleSources, denialSources, grantEvaluations, validationIssues)
@@ -528,6 +529,17 @@ function publicUnresolved(source) {
     sourceType: source.sourceType,
     reason: source.reason
   };
+}
+
+function unresolvedSourceTrace(source) {
+  return traceEntry({
+    sourceRef: source.id,
+    sourceType: source.sourceType,
+    effect: source.effect,
+    status: "unresolved",
+    role: "unresolved",
+    reason: source.reason
+  });
 }
 
 function sourceRefs(ruleSources, denialSources, grantSources) {

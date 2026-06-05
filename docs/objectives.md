@@ -276,12 +276,17 @@ Exit criteria:
 - Fixture runner commands list and execute named operational proof bundles.
 - Caller-supplied policy-history posture is surfaced without reading causal
   logs.
+- Edge writer-admission proof profile covers allowed, requires-review, and
+  hard-denied paths.
+- causal-substrate policy-history pressure proof profile covers synced,
+  partial, desynced, unverified, conflict, revoked, and superseded paths.
+- Proof runner validates deterministic repeated refs, receipt expectations,
+  unresolved source refs, and policy-history posture for named fixtures.
 
 ## Immediate Next Work
 
-1. Add a named downstream proof profile for Edge writer-admission preparation.
-2. Add a named downstream proof profile for causal-substrate policy-history
-   pressure.
-3. Add an operator-requested v1 tag only after explicit instruction.
-4. Revisit structured `compatibility` and `admissibility` for v1.1 only after
+1. Add an operator-requested v1 tag only after explicit instruction.
+2. Revisit structured `compatibility` and `admissibility` for v1.1 only after
    downstream proof shows scalar fields are insufficient.
+3. Add downstream-owned conformance import proof once Edge or causal-substrate
+   imports RBC directly.

@@ -12,6 +12,9 @@
 - Added caller-supplied policy-history posture in effective views without
   causal-log reads.
 - Added downstream adoption and release-tagging guidance.
+- Added Edge writer-admission and causal policy-history pressure operational
+  proof profiles.
+- Added trace rows for caller-supplied unresolved policy-history refs.
 
 ## 0.0.0
 

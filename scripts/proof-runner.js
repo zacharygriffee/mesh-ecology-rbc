@@ -42,10 +42,15 @@ function selectedFixtures(ids) {
 
 function runFixture(fixture) {
   const view = resolveEffectiveView(fixture.input);
+  const repeatedView = resolveEffectiveView(fixture.input);
   const failures = [];
 
   if (view.posture !== fixture.expected.posture) {
     failures.push(`expected posture ${fixture.expected.posture}, got ${view.posture}`);
+  }
+
+  if (view.effectiveViewRef !== repeatedView.effectiveViewRef) {
+    failures.push(`effectiveViewRef was not deterministic across repeated resolution`);
   }
 
   for (const sourceRef of fixture.expected.traceSourceRefs) {
@@ -53,6 +58,14 @@ function runFixture(fixture) {
       failures.push(`missing trace source ${sourceRef}`);
     }
   }
+
+  expectArray("allowedBy", view, fixture, failures);
+  expectArray("deniedBy", view, fixture, failures);
+  expectArray("requiredReceipts", view, fixture, failures);
+  expectArray("missingReceipts", view, fixture, failures);
+  expectArray("satisfiedReceipts", view, fixture, failures);
+  expectUnresolvedSourceRefs(view, fixture, failures);
+  expectPolicyHistoryPosture(view, fixture, failures);
 
   for (const [claim, expected] of Object.entries(fixture.expected.nonClaims)) {
     if (view.nonClaims[claim] !== expected) {
@@ -78,4 +91,43 @@ function runFixture(fixture) {
 function fail(message) {
   console.error(message);
   process.exit(1);
+}
+
+function expectArray(field, view, fixture, failures) {
+  if (!fixture.expected[field]) {
+    return;
+  }
+
+  const actual = view[field] ?? [];
+  if (!sameArray(actual, fixture.expected[field])) {
+    failures.push(`${field} expected ${JSON.stringify(fixture.expected[field])}, got ${JSON.stringify(actual)}`);
+  }
+}
+
+function expectUnresolvedSourceRefs(view, fixture, failures) {
+  if (!fixture.expected.unresolvedSourceRefs) {
+    return;
+  }
+
+  const actual = view.unresolved.map((entry) => entry.sourceRef);
+  if (!sameArray(actual, fixture.expected.unresolvedSourceRefs)) {
+    failures.push(`unresolvedSourceRefs expected ${JSON.stringify(fixture.expected.unresolvedSourceRefs)}, got ${JSON.stringify(actual)}`);
+  }
+}
+
+function expectPolicyHistoryPosture(view, fixture, failures) {
+  if (!fixture.expected.policyHistoryPosture) {
+    return;
+  }
+
+  if (view.policyHistoryPosture !== fixture.expected.policyHistoryPosture) {
+    failures.push(`policyHistoryPosture expected ${fixture.expected.policyHistoryPosture}, got ${view.policyHistoryPosture}`);
+  }
+}
+
+function sameArray(actual, expected) {
+  return (
+    actual.length === expected.length &&
+    actual.every((value, index) => value === expected[index])
+  );
 }
