@@ -30,6 +30,12 @@ explained the resolution.
 Receipt requirements are represented as required receipt refs or names. RBC
 does not issue receipts in v0.
 
+RBC can emit a report-only evaluation receipt over supplied material. This
+receipt preserves the effective view ref, source refs, trace refs, and
+non-claims, with readback/hash verification. It does not claim governed seam,
+authority, transport, storage, downstream consumption, production durability, or
+canonical truth.
+
 ## Compatibility Seam
 
 Compatibility posture is present as a field, but branch compatibility logic is

@@ -51,7 +51,7 @@ public swarm proof easier.
 
 ## First Seam-Facing Objective When Triggered
 
-The first RBC pressure should remain narrow:
+The first RBC pressure has landed and remains narrow:
 
 ```text
 supplied rulebook/capability/scope/evidence refs
@@ -78,12 +78,22 @@ governed seam, swarm transport, Layer admission, authority, production
 durability, or canonical truth. Only a later path where the receipt governs an
 actual seam crossing may support a `governed_seam` proof rung.
 
+Current implementation:
+
+- `resolveReportOnlyEvaluationReceipt(input)`
+- `createReportOnlyEvaluationReadback(receipt)`
+- `verifyReportOnlyEvaluationReadback(receipt, readback)`
+- proof remains `local_supplied_material`
+- covered by `npm test` and `npm run release:check`
+
 ## Next Useful Work
 
-If no seam pressure tripwire has fired, keep hardening the evaluator core:
+Until a concrete repo boundary consumes a report-only receipt, keep hardening
+the evaluator core:
 
 - preserve deterministic refs;
 - keep proof fixtures operational rather than doc-only;
 - improve Layer-oriented writer/capability/admission profiles;
 - keep caller-supplied policy history explicit;
 - keep adapters as data suppliers outside the resolver core.
+- do not claim governed seam from local receipt generation alone.

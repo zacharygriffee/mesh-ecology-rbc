@@ -26,6 +26,8 @@ check.
 - Operational fixtures resolve expected postures with mandatory trace.
 - Operational fixtures validate deterministic repeated refs, required receipts,
   unresolved source refs, and policy-history posture where applicable.
+- Report-only evaluation receipt tests prove allowed, denied, deferred,
+  readback/hash verification, tamper detection, and non-claims.
 - Effective views emit `viewVersion: "effective_view.v1"`.
 - Stable refs are deterministic for equivalent input.
 - Input material is not mutated.

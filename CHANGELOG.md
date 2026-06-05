@@ -17,6 +17,7 @@
 - Added trace rows for caller-supplied unresolved policy-history refs.
 - Added public operational conformance exports and the `rbc-proof` CLI.
 - Added an executable release readiness proof gate.
+- Added report-only evaluation receipts with readback/hash proof.
 
 ## 0.0.0
 

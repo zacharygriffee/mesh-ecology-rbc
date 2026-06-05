@@ -18,6 +18,7 @@ test("temporary consumer imports package export and resolves effective view", as
     import {
       EFFECTIVE_VIEW_VERSION,
       resolveEffectiveView,
+      resolveReportOnlyEvaluationReceipt,
       resolvePolicyPackView
     } from 'mesh-ecology-rbc';
     import {
@@ -54,6 +55,12 @@ test("temporary consumer imports package export and resolves effective view", as
     });
     const fixtureIds = listOperationalProofFixtures();
     const selectedProof = runOperationalProofSuite(['edge-writer-admission-allowed']);
+    const reportOnlyReceipt = resolveReportOnlyEvaluationReceipt({
+      rulebookRef: 'rulebook.consumer',
+      capabilityRef: 'capability:consumer-publish',
+      scope: input.basis,
+      resolverInput: input
+    });
 
     globalThis.__rbcConsumerResult = {
       version: EFFECTIVE_VIEW_VERSION,
@@ -63,6 +70,9 @@ test("temporary consumer imports package export and resolves effective view", as
       packedRef: packed.effectiveViewRef,
       fixtureCount: fixtureIds.length,
       selectedProof,
+      reportOnlyDecision: reportOnlyReceipt.receipt.decision,
+      reportOnlyHashMatches: reportOnlyReceipt.readback.hashMatches,
+      reportOnlyGovernedSeamClaim: reportOnlyReceipt.receipt.nonClaims.governedSeam,
       traceLength: direct.trace.length,
       nonClaims: direct.nonClaims
     };
@@ -80,6 +90,9 @@ test("temporary consumer imports package export and resolves effective view", as
     posture: "allowed",
     effectiveViewRef: "rbc-view:401ba7d7c528585b5bafd732704b39d81ae08a365c4af8bea7a5b338fe680bd3"
   }]);
+  assert.equal(globalThis.__rbcConsumerResult.reportOnlyDecision, "allowed");
+  assert.equal(globalThis.__rbcConsumerResult.reportOnlyHashMatches, true);
+  assert.equal(globalThis.__rbcConsumerResult.reportOnlyGovernedSeamClaim, false);
   assert.ok(globalThis.__rbcConsumerResult.traceLength > 0);
   assert.equal(globalThis.__rbcConsumerResult.nonClaims.authority, false);
   delete globalThis.__rbcConsumerResult;

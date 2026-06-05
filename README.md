@@ -82,6 +82,24 @@ The resolver does not read files, call the network, use hidden clocks, mutate
 global state, or generate random IDs. If time matters, pass it as `time` or
 `basis.timeRef`.
 
+RBC can also emit a report-only evaluation receipt over supplied material:
+
+```js
+import { resolveReportOnlyEvaluationReceipt } from "mesh-ecology-rbc";
+
+const proof = resolveReportOnlyEvaluationReceipt({
+  rulebookRef: "rulebook.edge-writer-admission",
+  capabilityRef: "capability:edge-writer-admission",
+  scope: {
+    actionRef: "action:writer-admission"
+  },
+  resolverInput
+});
+```
+
+That receipt remains below governed seam until a concrete downstream boundary
+consumes it.
+
 ## Operational Conformance
 
 Downstream repos can import executable proof support without importing from
@@ -110,4 +128,6 @@ Operational release proof is tracked in
 [docs/release-checklist.md](docs/release-checklist.md). Mock/proto preparation
 guidance is in [docs/mock-proto-compatibility.md](docs/mock-proto-compatibility.md).
 Downstream adoption notes are in [docs/downstream-adoption.md](docs/downstream-adoption.md),
-and caller-supplied policy history is described in [docs/policy-history.md](docs/policy-history.md).
+caller-supplied policy history is described in [docs/policy-history.md](docs/policy-history.md),
+and report-only receipts are described in
+[docs/report-only-evaluation-receipt.md](docs/report-only-evaluation-receipt.md).

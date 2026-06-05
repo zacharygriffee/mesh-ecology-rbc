@@ -285,11 +285,15 @@ Exit criteria:
 - Operational conformance proof is exported from `mesh-ecology-rbc/conformance`
   for downstream-style imports without importing from `test/`.
 - `npm run release:check` executes the repo-level release readiness proof gate.
+- Report-only evaluation receipts over supplied material are implemented with
+  readback/hash proof and explicit non-claims.
 
 ## Immediate Next Work
 
 1. Add an operator-requested v1 tag only after explicit instruction.
-2. Revisit structured `compatibility` and `admissibility` for v1.1 only after
+2. Wait for a concrete downstream boundary to consume a report-only evaluation
+   receipt before claiming governed seam.
+3. Revisit structured `compatibility` and `admissibility` for v1.1 only after
    downstream proof shows scalar fields are insufficient.
-3. Add downstream-owned conformance proof once Edge or causal-substrate imports
+4. Add downstream-owned conformance proof once Edge or causal-substrate imports
    and runs RBC directly.
