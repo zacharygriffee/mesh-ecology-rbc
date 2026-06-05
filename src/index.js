@@ -23,3 +23,9 @@ export {
   SOURCE_TYPES,
   STRENGTHS
 } from "./constants.js";
+export {
+  LAYER_BOUNDARY_PRESSURE_EVALUATION_TRANSCRIPT_VERSION,
+  createLayerBoundaryPressureEvaluationInput,
+  evaluateLayerBoundaryPressurePacket,
+  getLayerBoundaryPressurePacketIssues
+} from "./layer-boundary-pressure.js";

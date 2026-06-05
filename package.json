@@ -16,6 +16,7 @@
     "example": "node examples/basic-resolution.js",
     "proof:list": "node bin/rbc-proof.js list",
     "proof:run": "node bin/rbc-proof.js run",
+    "rbc:layer-boundary-pressure": "node scripts/evaluate-layer-boundary-pressure-packet.mjs",
     "release:check": "node scripts/release-check.js"
   },
   "keywords": [

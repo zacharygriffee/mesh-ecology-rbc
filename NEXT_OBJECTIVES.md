@@ -22,6 +22,7 @@ Current proof commands:
 npm test
 npm run proof:list
 npm run proof:run
+npm run rbc:layer-boundary-pressure
 node bin/rbc-proof.js receipt:transcript
 npm run release:check
 ```
@@ -86,6 +87,7 @@ Current implementation:
 - `verifyReportOnlyEvaluationReadback(receipt, readback)`
 - `runReportOnlyReceiptProofSuite(ids)`
 - `createReportOnlyReceiptProofTranscript(ids)`
+- `evaluateLayerBoundaryPressurePacket(packet)`
 - proof remains `local_supplied_material`
 - covered by `npm test` and `npm run release:check`
 - Layer-oriented receipt proof fixtures cover authorized, missing-review,
@@ -93,16 +95,27 @@ Current implementation:
 - deterministic transcript output preserves receipt/readback hashes, source
   refs, trace refs, and non-claims for audit without claiming downstream
   consumption.
+- `npm run rbc:layer-boundary-pressure` consumes Layer's concrete
+  `layer-rbc-boundary-pressure` packet as supplied material and emits
+  `proof-artifacts/layer-rbc-boundary-pressure-evaluation/receipt.json`,
+  `readback.json`, and `transcript.json`.
+- The concrete Layer packet evaluation currently emits a report-only
+  `deferred` receipt because Layer supplied a review/approval boundary, not an
+  authority grant.
 
 ## Next Useful Work
 
-Until a concrete repo boundary consumes a report-only receipt, keep hardening
-the evaluator core:
+RBC has now consumed the concrete Layer boundary pressure packet as supplied
+material. The next pressure should move downstream: Layer should consume the RBC
+receipt/readback as read-only evaluation material and decide what its own next
+Layer-local operation needs. RBC should only continue solo work when a new
+downstream packet or boundary question arrives.
 
-- preserve deterministic refs;
+- preserve deterministic refs if the same packet is evaluated again;
 - keep proof fixtures operational rather than doc-only;
-- add only downstream-driven Layer-oriented writer/capability/admission
-  profiles after a real boundary asks for them;
+- add only downstream-driven profiles after a real boundary asks for them;
 - keep caller-supplied policy history explicit;
-- keep adapters as data suppliers outside the resolver core.
-- do not claim governed seam from local receipt generation alone.
+- keep adapters as data suppliers outside the resolver core;
+- do not claim governed seam from local receipt generation alone;
+- do not claim the Layer packet evaluation grants Layer admission, append
+  capability, authority, production durability, or seam transport.
