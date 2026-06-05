@@ -12,11 +12,29 @@ basis.
   allowedBy: [],
   deniedBy: [],
   requiredReceipts: ["operator_review"],
+  missingReceipts: ["operator_review"],
+  satisfiedReceipts: [],
+  sourceRefs: ["rule.public-publish-requires-review"],
+  appliedRuleRefs: ["rule.public-publish-requires-review"],
+  grantRefs: [],
+  denialRefs: [],
+  overlayRefs: [],
+  conflicts: [],
+  unresolved: [],
   compatibility: "compatible",
   admissibility: "not_applicable",
   mediation: {
     mode: "review",
     requiredReceipts: ["operator_review"]
+  },
+  nonClaims: {
+    execution: false,
+    approval: false,
+    authority: false,
+    persistence: false,
+    canonicalTruth: false,
+    hiddenClock: false,
+    network: false
   },
   trace: []
 }
@@ -39,5 +57,21 @@ basis.
 ## Trace
 
 Trace is mandatory. It names matched rules, grants, denials, expired grants,
-and default mediation decisions. A trace entry should be enough for another
-agent to see why the posture was derived.
+receipt evidence, unresolved validation material, conflicts, and default
+mediation decisions. A trace entry should be enough for another agent to see
+why the posture was derived.
+
+Trace entries include a `role` when relevant:
+
+- `winner`: material that determined the final posture.
+- `shadowed`: material that matched but lost to stricter material.
+- `satisfied_gate`: a review gate satisfied by supplied receipt evidence.
+- `evidence`: supplied receipt evidence.
+- `unresolved`: malformed, expired, ambiguous, or conflicting material that
+  prevents silent allow.
+
+## Operational Proof
+
+The effective view contract is considered successful only when executable tests
+prove the resolver behavior. Documentation, semantic checks, and schema checks
+are supporting gates, not proof of success by themselves.

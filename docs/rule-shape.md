@@ -20,6 +20,9 @@ Rules are declarative data. They are not executable functions.
 }
 ```
 
+Executable predicates are rejected as unresolved material. A rule with a
+function in `when` does not match and cannot allow an action.
+
 ## Rulebook
 
 A rulebook is a named collection of rules.
@@ -72,3 +75,21 @@ material.
   reason: "Private artifacts cannot be published to public surfaces."
 }
 ```
+
+## Receipt Evidence
+
+Receipts are caller-supplied evidence. RBC may decide that supplied evidence
+satisfies a review gate, but RBC does not issue, approve, store, or own
+receipts.
+
+```js
+{
+  id: "receipt.operator-review.note-001",
+  receiptRef: "operator_review",
+  status: "valid",
+  issuedAt: "2026-06-05T00:00:00.000Z"
+}
+```
+
+Expired, revoked, invalid, superseded, or malformed receipt evidence is
+traceable and does not satisfy required receipts.

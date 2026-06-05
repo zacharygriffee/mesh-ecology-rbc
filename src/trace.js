@@ -5,6 +5,7 @@ export function traceEntry(fields) {
     effect: fields.effect,
     posture: fields.posture,
     status: fields.status,
+    role: fields.role,
     reason: fields.reason,
     precedence: fields.precedence,
     details: fields.details

@@ -21,6 +21,8 @@ export const SOURCE_TYPES = Object.freeze({
   OVERLAY: "overlay",
   GRANT: "grant",
   DENIAL: "denial",
+  RECEIPT: "receipt",
+  VALIDATION: "validation",
   DEFAULT: "default"
 });
 
@@ -31,3 +33,13 @@ export const STRENGTHS = Object.freeze({
 
 export const DEFAULT_COMPATIBILITY = "compatible";
 export const DEFAULT_ADMISSIBILITY = "not_applicable";
+
+export const NON_CLAIMS = Object.freeze({
+  execution: false,
+  approval: false,
+  authority: false,
+  persistence: false,
+  canonicalTruth: false,
+  hiddenClock: false,
+  network: false
+});

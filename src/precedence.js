@@ -19,6 +19,22 @@ export function choosePosture(matches) {
     };
   }
 
+  if (matches.conflicts.length > 0) {
+    return {
+      posture: POSTURES.REQUIRES_MEDIATION,
+      winningSources: matches.conflicts,
+      precedence: "conflict"
+    };
+  }
+
+  if (matches.unresolved.length > 0) {
+    return {
+      posture: POSTURES.REQUIRES_MEDIATION,
+      winningSources: matches.unresolved,
+      precedence: "unresolved_material"
+    };
+  }
+
   if (matches.reviewRules.length > 0) {
     return {
       posture: POSTURES.REQUIRES_REVIEW,

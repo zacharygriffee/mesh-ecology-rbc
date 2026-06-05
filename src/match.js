@@ -18,11 +18,19 @@ export function matchesScope(scope = {}, context = {}) {
 }
 
 export function matchesPattern(pattern = {}, context = {}) {
+  if (!pattern || typeof pattern !== "object" || Array.isArray(pattern)) {
+    return false;
+  }
+
   return Object.entries(pattern).every(([key, expected]) => {
     const actual = context[key];
 
     if (Array.isArray(expected)) {
       return expected.includes(actual);
+    }
+
+    if (typeof expected === "function") {
+      return false;
     }
 
     return Object.is(actual, expected);
@@ -34,7 +42,11 @@ function metadataFacts(input) {
     ...entityFacts("artifact", input.artifact ?? input.artifactMetadata),
     ...entityFacts("surface", input.surface ?? input.surfaceMetadata),
     ...entityFacts("role", input.role ?? input.roleMetadata),
-    ...entityFacts("device", input.device ?? input.deviceMetadata)
+    ...entityFacts("device", input.device ?? input.deviceMetadata),
+    ...entityFacts("observer", input.observer ?? input.observerMetadata),
+    ...entityFacts("branch", input.branch ?? input.branchMetadata),
+    ...entityFacts("envelope", input.envelope ?? input.envelopeMetadata),
+    ...entityFacts("context", input.context ?? input.contextMetadata)
   };
 }
 

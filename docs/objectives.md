@@ -19,7 +19,19 @@ RBC is fully operational when it can:
   outcomes.
 - Support repo-family policy domains without becoming their authority.
 - Accept adapter-supplied material without owning adapter concerns.
-- Pass a conformance suite that another repo can rely on.
+- Pass operational proof that another repo can rely on.
+
+## Success Standard
+
+Operational proof is the only success standard. A phase is not complete because
+the wording is doctrinally aligned, a semantic check passes, a schema looks
+consistent, or a document says the boundary is correct.
+
+Doctrine, semantic checks, schema validation, lint-like guards, and concise
+docs are supporting gates. They are useful only when backed by executable proof
+against resolver behavior: concrete inputs, expected effective views,
+deterministic refs, required traces, and negative cases proving RBC does not
+silently allow, execute, approve, persist, or claim authority.
 
 ## Phase 0: Core Doctrine Lock
 
@@ -214,13 +226,18 @@ Exit criteria:
 - Add import smoke tests for package consumers.
 - Add mutation-safety tests proving inputs are not mutated.
 - Add determinism tests with reordered object keys.
+- Add operational proof bundles that run resolver behavior end to end from
+  rule material to effective view.
 
 Exit criteria:
 
-- `npm test` proves deterministic, bounded, traceable behavior.
+- `npm test` includes operational proof of deterministic, bounded, traceable
+  behavior.
 - Any downstream repo can run conformance fixtures against an imported RBC
   version.
 - Regression failures point to specific doctrine or contract violations.
+- Doctrine-only, semantic-only, schema-only, or documentation-only checks are
+  never counted as success by themselves.
 
 ## Phase 12: Release Readiness
 
@@ -248,3 +265,5 @@ Exit criteria:
 5. Add non-overridable parent constraint semantics.
 6. Draft `effective_view.v1` field contract.
 7. Add conformance fixtures for every posture.
+8. Add an operational proof fixture that resolves a realistic downstream
+   basis through rulebooks, overlays, grants, denials, receipts, and trace.

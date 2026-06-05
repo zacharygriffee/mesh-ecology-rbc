@@ -4,7 +4,10 @@ export function collectRuleEntries(rulebooks = [], overlays = []) {
   return [
     ...collectRulebooks(rulebooks, "rulebook"),
     ...collectOverlays(overlays)
-  ];
+  ].map((entry, sourceOrder) => ({
+    ...entry,
+    sourceOrder
+  }));
 }
 
 function collectRulebooks(rulebooks, cascadeType) {
@@ -17,7 +20,8 @@ function collectRulebooks(rulebooks, cascadeType) {
       sourceType: SOURCE_TYPES.RULE,
       cascadeType,
       cascadeIndex: rulebookIndex,
-      ruleIndex
+      ruleIndex,
+      cascadeOrder: cascadeType === "overlay" ? 1 : 0
     }));
   });
 }
@@ -39,7 +43,8 @@ function collectOverlays(overlays) {
       sourceType: SOURCE_TYPES.RULE,
       cascadeType: "overlay",
       cascadeIndex: overlayIndex,
-      ruleIndex: 0
+      ruleIndex: 0,
+      cascadeOrder: 1
     }];
   });
 }
