@@ -15,7 +15,8 @@
     "test": "node --test",
     "example": "node examples/basic-resolution.js",
     "proof:list": "node bin/rbc-proof.js list",
-    "proof:run": "node bin/rbc-proof.js run"
+    "proof:run": "node bin/rbc-proof.js run",
+    "release:check": "node scripts/release-check.js"
   },
   "keywords": [
     "mesh-ecology",

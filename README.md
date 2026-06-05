@@ -38,6 +38,7 @@ npm test
 npm run example
 npm run proof:list
 npm run proof:run
+npm run release:check
 ```
 
 ```js

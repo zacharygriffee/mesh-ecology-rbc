@@ -284,6 +284,7 @@ Exit criteria:
   unresolved source refs, and policy-history posture for named fixtures.
 - Operational conformance proof is exported from `mesh-ecology-rbc/conformance`
   for downstream-style imports without importing from `test/`.
+- `npm run release:check` executes the repo-level release readiness proof gate.
 
 ## Immediate Next Work
 

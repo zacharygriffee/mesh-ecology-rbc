@@ -16,6 +16,7 @@
   proof profiles.
 - Added trace rows for caller-supplied unresolved policy-history refs.
 - Added public operational conformance exports and the `rbc-proof` CLI.
+- Added an executable release readiness proof gate.
 
 ## 0.0.0
 

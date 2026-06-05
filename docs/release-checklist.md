@@ -3,6 +3,16 @@
 RBC release readiness is proven by executable operational proof, not by this
 checklist alone.
 
+The repo-level completion gate is:
+
+```bash
+npm run release:check
+```
+
+That command runs tests, examples, conformance proof, package dry-run,
+whitespace checks, runtime-dependency checks, and the no-TypeScript boundary
+check.
+
 ## v1 Core Gate
 
 - `npm test` passes.
@@ -38,6 +48,7 @@ Do not tag v1 until the operator explicitly requests it. When requested, use:
 
 ```bash
 npm test
+npm run release:check
 npm run example
 npm run proof:list
 npm run proof:run
