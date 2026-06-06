@@ -3,6 +3,17 @@
 Status: lane guide, not a fixed task list. RBC agents should choose the next
 small operational improvement inside RBC's deterministic evaluator role.
 
+## Current Pressure: Evaluator Core Stable; Conduit Consumed Receipt Read-Only
+
+Conduit has now consumed RBC's existing Layer boundary review receipt/readback
+as supplied material for a local session-admission boundary proof. That is a
+Conduit proof, not a new RBC runtime or governed-seam proof. RBC does not need
+to move again until a repo supplies a fresh rulebook/capability/scope need that
+requires a new report-only evaluation receipt.
+
+Do not implement transport, storage, live seam participation, authority, or a
+controller role in RBC from this Conduit consumption alone.
+
 ## Current Lane
 
 RBC is an operational deterministic rulebook/capability evaluator core. It
