@@ -18,6 +18,7 @@
     "proof:run": "node bin/rbc-proof.js run",
     "rbc:layer-boundary-pressure": "node scripts/evaluate-layer-boundary-pressure-packet.mjs",
     "rbc:layer-boundary-review": "node scripts/evaluate-layer-boundary-review-packet.mjs",
+    "rbc:edge-request-packet": "node scripts/evaluate-edge-request-packet.mjs",
     "release:check": "node scripts/release-check.js"
   },
   "keywords": [

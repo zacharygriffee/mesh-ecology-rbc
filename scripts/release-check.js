@@ -88,6 +88,23 @@ const checks = [
     ]
   },
   {
+    label: "Edge request packet report-only evaluation",
+    command: process.execPath,
+    args: [
+      "scripts/evaluate-edge-request-packet.mjs",
+      "--packet",
+      "../mesh-ecology-edge/proof-artifacts/edge-minimal-operator-request-packet-20260609T003000Z/request-packet.json",
+      "--packet-readback",
+      "../mesh-ecology-edge/proof-artifacts/edge-minimal-operator-request-packet-20260609T003000Z/readback.json",
+      "--receipt-out",
+      ".tmp/release-check-edge-request-packet/receipt.json",
+      "--readback-out",
+      ".tmp/release-check-edge-request-packet/readback.json",
+      "--transcript-out",
+      ".tmp/release-check-edge-request-packet/transcript.json"
+    ]
+  },
+  {
     label: "package bin proof execution",
     command: npmCommand,
     args: ["exec", "--", "rbc-proof", "run", "edge-writer-admission-allowed"]

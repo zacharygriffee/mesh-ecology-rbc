@@ -3,16 +3,34 @@
 Status: lane guide, not a fixed task list. RBC agents should choose the next
 small operational improvement inside RBC's deterministic evaluator role.
 
-## Current Pressure: Evaluator Core Stable; Conduit Consumed Receipt Read-Only
+## Current Pressure: Edge Request Packet Evaluation Complete
 
-Conduit has now consumed RBC's existing Layer boundary review receipt/readback
-as supplied material for a local session-admission boundary proof. That is a
-Conduit proof, not a new RBC runtime or governed-seam proof. RBC does not need
-to move again until a repo supplies a fresh rulebook/capability/scope need that
-requires a new report-only evaluation receipt.
+Spine routed a fresh concrete boundary question to RBC after Edge emitted
+`edge_minimal_operator_request_packet.v0`. RBC has now consumed that Edge
+packet/readback as supplied material and emitted a report-only `allowed`
+evaluation receipt/readback/transcript.
 
-Do not implement transport, storage, live seam participation, authority, or a
-controller role in RBC from this Conduit consumption alone.
+Current Edge request packet evaluation refs:
+
+```text
+command: npm run rbc:edge-request-packet
+sourcePacketRef: edge-minimal-operator-request-packet:940f03b48f7c9099
+sourcePacketHash: sha256:708d95e8ab7b8f54a875a06fad94a3de93ff1a9605bb52a97867f006f151224c
+sourcePacketReadbackHash: sha256:b099435cc918c70d6f3d28492ced34f5be37035670bda9121ea1c3eeab8ad41a
+receiptRef: rbc-evaluation-receipt:b17b735db826c089
+receiptHash: sha256:b17b735db826c0898e1dda22441c0e9a6d5720106644ecbcaab0340bac2e2c9c
+readbackRef: rbc-evaluation-readback:0a31560b9c36c2e7
+readbackHash: sha256:0a31560b9c36c2e701a2be1b7d03783b80c93092d5deefe102fd591070c26da6
+transcriptHash: sha256:762104a8d8a792742408b4c93643f7c4599ea67b6d8be69a84c2655e828c0814
+decision: allowed
+proofRung: local_supplied_material
+```
+
+This is not transport, storage, live seam participation, governed seam,
+authority, controller behavior, queue action, dispatch, request execution,
+activation approval, dependency authorization, Edge mutation, Layer admission,
+Causal truth, Mesh publication, production durability, canonical truth, or
+public-swarm proof.
 
 ## Current Lane
 
@@ -35,6 +53,7 @@ npm run proof:list
 npm run proof:run
 npm run rbc:layer-boundary-pressure
 npm run rbc:layer-boundary-review
+npm run rbc:edge-request-packet
 node bin/rbc-proof.js receipt:transcript
 npm run release:check
 ```
@@ -140,14 +159,23 @@ Current implementation:
   continuity, production storage, production append, and durable decision
   append. It is not governed seam, Layer admission, append capability grant,
   durable decision append, authority, production durability, or swarm proof.
+- `npm run rbc:edge-request-packet` consumes Edge's minimal operator request
+  packet/readback as supplied material and emits
+  `proof-artifacts/edge-request-packet-evaluation/receipt.json`,
+  `readback.json`, and `transcript.json`.
+- The Edge request packet decision is `allowed` for the report-only request
+  shape only. It means the supplied packet is acceptable input for future
+  mediated repo-family reassessment. It does not insert a queue action,
+  dispatch work, execute the request, approve activation, authorize dependency
+  acquisition, mutate Edge, govern a seam, or grant authority.
 
 ## Next Useful Work
 
-RBC has consumed the Layer boundary-review packet. The next pressure should
-move downstream to Layer: Layer should consume the new RBC receipt/readback as
-read-only supplied material and decide the next Layer-local packet or
-still-deferred posture. RBC should not continue solo work unless a new
-downstream packet or boundary question arrives.
+RBC has consumed the current Edge request packet. The next pressure should move
+back to Spine for repo-family reassessment, then downstream to whichever repo
+must consume the RBC receipt or act on the operator request under its own
+boundary. RBC should not continue solo work unless a new downstream packet or
+boundary question arrives.
 
 - preserve deterministic refs if the same packet is evaluated again;
 - keep proof fixtures operational rather than doc-only;

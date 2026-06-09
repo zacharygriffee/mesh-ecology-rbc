@@ -35,3 +35,9 @@ export {
   evaluateLayerBoundaryReviewPacket,
   getLayerBoundaryReviewPacketIssues
 } from "./layer-boundary-review.js";
+export {
+  EDGE_REQUEST_PACKET_EVALUATION_TRANSCRIPT_VERSION,
+  createEdgeRequestPacketEvaluationInput,
+  evaluateEdgeRequestPacket,
+  getEdgeRequestPacketIssues
+} from "./edge-request-packet-evaluation.js";
