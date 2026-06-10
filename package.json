@@ -19,6 +19,8 @@
     "rbc:layer-boundary-pressure": "node scripts/evaluate-layer-boundary-pressure-packet.mjs",
     "rbc:layer-boundary-review": "node scripts/evaluate-layer-boundary-review-packet.mjs",
     "rbc:edge-request-packet": "node scripts/evaluate-edge-request-packet.mjs",
+    "rbc:file-resource-lift-operator-decision": "node scripts/evaluate-file-resource-lift-operator-decision.mjs",
+    "rbc:file-resource-admission-candidate": "node scripts/evaluate-file-resource-admission-candidate.mjs",
     "release:check": "node scripts/release-check.js"
   },
   "keywords": [

@@ -41,3 +41,15 @@ export {
   evaluateEdgeRequestPacket,
   getEdgeRequestPacketIssues
 } from "./edge-request-packet-evaluation.js";
+export {
+  FILE_RESOURCE_LIFT_OPERATOR_DECISION_EVALUATION_TRANSCRIPT_VERSION,
+  createFileResourceLiftOperatorDecisionEvaluationInput,
+  evaluateFileResourceLiftOperatorDecision,
+  getFileResourceLiftOperatorDecisionIssues
+} from "./file-resource-lift-operator-decision.js";
+export {
+  FILE_RESOURCE_ADMISSION_CANDIDATE_EVALUATION_TRANSCRIPT_VERSION,
+  createFileResourceAdmissionCandidateEvaluationInput,
+  evaluateFileResourceAdmissionCandidate,
+  getFileResourceAdmissionCandidateIssues
+} from "./file-resource-admission-candidate.js";
