@@ -67,3 +67,10 @@ export {
   evaluateFileResourceLocalAdmissionDurabilityPlan,
   getFileResourceLocalAdmissionDurabilityPlanIssues
 } from "./file-resource-local-admission-durability-plan-evaluation.js";
+export {
+  FILE_RESOURCE_LOCAL_ADMISSION_DURABILITY_CANDIDATE_SHAPE_PLAN_EVALUATION_STATUSES,
+  FILE_RESOURCE_LOCAL_ADMISSION_DURABILITY_CANDIDATE_SHAPE_PLAN_EVALUATION_TRANSCRIPT_VERSION,
+  createFileResourceLocalAdmissionDurabilityCandidateShapePlanEvaluationInput,
+  evaluateFileResourceLocalAdmissionDurabilityCandidateShapePlan,
+  getFileResourceLocalAdmissionDurabilityCandidateShapePlanIssues
+} from "./file-resource-local-admission-durability-candidate-shape-plan-evaluation.js";

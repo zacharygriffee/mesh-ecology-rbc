@@ -23,6 +23,7 @@
     "rbc:file-resource-admission-candidate": "node scripts/evaluate-file-resource-admission-candidate.mjs",
     "rbc:file-resource-source-continuity-acceptance-admissibility": "node scripts/evaluate-file-resource-source-continuity-acceptance-admissibility.mjs",
     "rbc:file-resource-local-admission-durability-plan": "node scripts/evaluate-file-resource-local-admission-durability-plan.mjs",
+    "rbc:file-resource-local-admission-durability-candidate-shape-plan": "node scripts/evaluate-file-resource-local-admission-durability-candidate-shape-plan.mjs",
     "release:check": "node scripts/release-check.js"
   },
   "keywords": [
