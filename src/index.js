@@ -53,3 +53,10 @@ export {
   evaluateFileResourceAdmissionCandidate,
   getFileResourceAdmissionCandidateIssues
 } from "./file-resource-admission-candidate.js";
+export {
+  FILE_RESOURCE_SOURCE_CONTINUITY_ACCEPTANCE_ADMISSIBILITY_STATUSES,
+  FILE_RESOURCE_SOURCE_CONTINUITY_ACCEPTANCE_ADMISSIBILITY_TRANSCRIPT_VERSION,
+  createFileResourceSourceContinuityAcceptanceAdmissibilityInput,
+  evaluateFileResourceSourceContinuityAcceptanceAdmissibility,
+  getFileResourceSourceContinuityAcceptanceAdmissibilityIssues
+} from "./file-resource-source-continuity-acceptance-admissibility.js";

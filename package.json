@@ -21,6 +21,7 @@
     "rbc:edge-request-packet": "node scripts/evaluate-edge-request-packet.mjs",
     "rbc:file-resource-lift-operator-decision": "node scripts/evaluate-file-resource-lift-operator-decision.mjs",
     "rbc:file-resource-admission-candidate": "node scripts/evaluate-file-resource-admission-candidate.mjs",
+    "rbc:file-resource-source-continuity-acceptance-admissibility": "node scripts/evaluate-file-resource-source-continuity-acceptance-admissibility.mjs",
     "release:check": "node scripts/release-check.js"
   },
   "keywords": [
