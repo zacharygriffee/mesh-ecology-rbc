@@ -22,6 +22,7 @@
     "rbc:file-resource-lift-operator-decision": "node scripts/evaluate-file-resource-lift-operator-decision.mjs",
     "rbc:file-resource-admission-candidate": "node scripts/evaluate-file-resource-admission-candidate.mjs",
     "rbc:file-resource-source-continuity-acceptance-admissibility": "node scripts/evaluate-file-resource-source-continuity-acceptance-admissibility.mjs",
+    "rbc:file-resource-local-admission-durability-plan": "node scripts/evaluate-file-resource-local-admission-durability-plan.mjs",
     "release:check": "node scripts/release-check.js"
   },
   "keywords": [

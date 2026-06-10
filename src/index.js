@@ -60,3 +60,10 @@ export {
   evaluateFileResourceSourceContinuityAcceptanceAdmissibility,
   getFileResourceSourceContinuityAcceptanceAdmissibilityIssues
 } from "./file-resource-source-continuity-acceptance-admissibility.js";
+export {
+  FILE_RESOURCE_LOCAL_ADMISSION_DURABILITY_PLAN_EVALUATION_STATUSES,
+  FILE_RESOURCE_LOCAL_ADMISSION_DURABILITY_PLAN_EVALUATION_TRANSCRIPT_VERSION,
+  createFileResourceLocalAdmissionDurabilityPlanEvaluationInput,
+  evaluateFileResourceLocalAdmissionDurabilityPlan,
+  getFileResourceLocalAdmissionDurabilityPlanIssues
+} from "./file-resource-local-admission-durability-plan-evaluation.js";

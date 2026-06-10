@@ -3,34 +3,41 @@
 Status: lane guide, not a fixed task list. RBC agents should choose the next
 small operational improvement inside RBC's deterministic evaluator role.
 
-## Current Pressure: Edge Request Packet Evaluation Complete
+## Current Pressure: Local Admission/Durability Plan Evaluation Complete
 
-Spine routed a fresh concrete boundary question to RBC after Edge emitted
-`edge_minimal_operator_request_packet.v0`. RBC has now consumed that Edge
-packet/readback as supplied material and emitted a report-only `allowed`
-evaluation receipt/readback/transcript.
+Spine routed the next file/resource lift boundary to RBC after Layer recorded a
+local admission/durability planning packet and Edge made that plan visible to
+the operator. RBC has now consumed those supplied artifacts and emitted a
+report-only evaluation receipt/readback/transcript.
 
-Current Edge request packet evaluation refs:
+Current local admission/durability plan evaluation refs:
 
 ```text
-command: npm run rbc:edge-request-packet
-sourcePacketRef: edge-minimal-operator-request-packet:940f03b48f7c9099
-sourcePacketHash: sha256:708d95e8ab7b8f54a875a06fad94a3de93ff1a9605bb52a97867f006f151224c
-sourcePacketReadbackHash: sha256:b099435cc918c70d6f3d28492ced34f5be37035670bda9121ea1c3eeab8ad41a
-receiptRef: rbc-evaluation-receipt:b17b735db826c089
-receiptHash: sha256:b17b735db826c0898e1dda22441c0e9a6d5720106644ecbcaab0340bac2e2c9c
-readbackRef: rbc-evaluation-readback:0a31560b9c36c2e7
-readbackHash: sha256:0a31560b9c36c2e701a2be1b7d03783b80c93092d5deefe102fd591070c26da6
-transcriptHash: sha256:762104a8d8a792742408b4c93643f7c4599ea67b6d8be69a84c2655e828c0814
+command: npm run rbc:file-resource-local-admission-durability-plan
+sourceLayerPlanRef: layer-file-resource-local-admission-durability-plan:c116612d005c4dea
+sourceLayerPlanHash: sha256:29c1b251b3fa0d1f09e1086b9aa7c18d7facdbc37d764428ed110baeb57b0207
+sourceLayerPlanReadbackRef: layer-file-resource-local-admission-durability-plan-readback:3013d7b8205f4502
+sourceLayerPlanReadbackHash: sha256:9133c0df472fe155ba438c770aedf038cb52e9e1d52542a0a26dcfdbf4152a05
+sourceEdgeVisibilityRef: edge-file-resource-local-admission-durability-plan-visibility:1214ebd1b9ebad8e
+sourceEdgeVisibilityHash: sha256:a62be269df26360d8ceb04326e52c9bc51124a5e82ddb783c85fb6a8993eb028
+receiptRef: rbc-evaluation-receipt:c27247e3543cc268
+receiptHash: sha256:c27247e3543cc268b22875340937377b60073054de612413f8eeb98189d9a9ed
+readbackRef: rbc-evaluation-readback:f18e054e3c50d10c
+readbackHash: sha256:f18e054e3c50d10cf589d5f6b7d7ad9bb913eb2822eef0f8e0339f8b6eeece23
+transcriptHash: sha256:adedce8f1fb6c719adead7b37d60bc1d40b7b12e8d5bd105694a1c6fc159426e
+evaluationStatus: allowed_for_layer_local_admission_durability_candidate_boundary
 decision: allowed
 proofRung: local_supplied_material
+requiredNextBoundary: layer_consumes_rbc_local_admission_durability_plan_evaluation_before_any_layer_admission_or_durability_candidate
 ```
 
-This is not transport, storage, live seam participation, governed seam,
-authority, controller behavior, queue action, dispatch, request execution,
-activation approval, dependency authorization, Edge mutation, Layer admission,
-Causal truth, Mesh publication, production durability, canonical truth, or
-public-swarm proof.
+This means only that the supplied Layer plan/readback and Edge visibility are
+acceptable report-only evidence for Layer to consider a future local
+admission/durability candidate boundary.
+
+It is not admission, append approval, durable append approval, Layer mutation,
+resource canon, production durability, storage, transport, governed seam,
+authority, Causal truth, Edge action authority, or public-swarm proof.
 
 ## Current Lane
 
@@ -54,6 +61,10 @@ npm run proof:run
 npm run rbc:layer-boundary-pressure
 npm run rbc:layer-boundary-review
 npm run rbc:edge-request-packet
+npm run rbc:file-resource-lift-operator-decision
+npm run rbc:file-resource-admission-candidate
+npm run rbc:file-resource-source-continuity-acceptance-admissibility
+npm run rbc:file-resource-local-admission-durability-plan
 node bin/rbc-proof.js receipt:transcript
 npm run release:check
 ```
@@ -62,120 +73,35 @@ The current proof is real evaluator-core proof over supplied material. It is
 not seam proof, governed seam proof, public swarm proof, or production
 durability proof.
 
-## Seam Pressure Tripwire
+## Active Evaluator Shape
 
-RBC should move toward seam-facing work only when the repo family can cite a
-concrete boundary need for an external report-only evaluation receipt.
+The local admission/durability plan evaluator consumes:
 
-Tripwire triggers when at least one of these becomes true:
+- `layer_file_resource_local_admission_durability_plan.v0`
+- `layer_file_resource_local_admission_durability_plan_readback.v0`
+- `edge_file_resource_local_admission_durability_plan_visibility.v0`
 
-- Layer needs a report-only writer/capability/admission evaluation receipt
-  before accepting or exposing a stronger seam posture.
-- Edge, Layer, Causal Substrate, Platform, Conduit, or another peer repo need
-  the same `allowed | denied | deferred` receipt shape at a boundary.
-- A repo is about to claim `governed_seam`.
-- Operator mediation repeatedly asks the same capability/rulebook question and
-  deterministic rulebook evaluation is the narrow bottleneck.
+It verifies that:
 
-Do not trigger RBC seam pressure for doctrine, schema alignment, semantic
-rulebook text, operator approval alone, Edge projection, Layer receipt text,
-Causal observation, Platform status, Conduit carrier work, or a desire to make
-public swarm proof easier.
-
-## First Seam-Facing Objective When Triggered
-
-The first RBC pressure has landed and remains narrow:
-
-```text
-supplied rulebook/capability/scope/evidence refs
--> RBC deterministic effective view
--> report-only RBC evaluation receipt
--> readback/hash check
-```
-
-The receipt should preserve:
-
-- `allowed | denied | deferred`
-- `rulebookRef`
-- `capabilityRef`
-- `scope`
-- `expiry/null`
-- `reason`
-- `effectiveViewRef`
-- `sourceRefs`
-- `traceRefs`
-- `nonClaims`
-
-This first receipt lane can remain local supplied material. It must not claim
-governed seam, swarm transport, Layer admission, authority, production
-durability, or canonical truth. Only a later path where the receipt governs an
-actual seam crossing may support a `governed_seam` proof rung.
-
-Current implementation:
-
-- `resolveReportOnlyEvaluationReceipt(input)`
-- `createReportOnlyEvaluationReadback(receipt)`
-- `verifyReportOnlyEvaluationReadback(receipt, readback)`
-- `runReportOnlyReceiptProofSuite(ids)`
-- `createReportOnlyReceiptProofTranscript(ids)`
-- `evaluateLayerBoundaryPressurePacket(packet)`
-- proof remains `local_supplied_material`
-- covered by `npm test` and `npm run release:check`
-- Layer-oriented receipt proof fixtures cover authorized, missing-review,
-  hard-denied, and expired-grant paths.
-- deterministic transcript output preserves receipt/readback hashes, source
-  refs, trace refs, and non-claims for audit without claiming downstream
-  consumption.
-- `npm run rbc:layer-boundary-pressure` consumes Layer's concrete
-  `layer-rbc-boundary-pressure` packet as supplied material and emits
-  `proof-artifacts/layer-rbc-boundary-pressure-evaluation/receipt.json`,
-  `readback.json`, and `transcript.json`.
-- The concrete Layer packet evaluation currently emits a report-only
-  `deferred` receipt because Layer supplied a review/approval boundary, not an
-  authority grant.
-- Layer has now produced concrete boundary-review material:
-  `../mesh-ecology-layer/proof-artifacts/layer-rbc-boundary-review/packet.json`
-  with packet hash
-  `2df268eeb6500e8463a6f158e6f66cdfbb032a5487b86a61829c187303863707`.
-  That packet satisfies `layer_rbc_boundary_review` as supplied material and
-  cites Layer's append-capability operator decision as review material. It is
-  not an RBC receipt, not governed seam, not Layer admission, not append
-  capability application, not durable decision append, not authority, not
-  production durability, and not swarm proof.
-- `npm run rbc:layer-boundary-review` consumes that packet as supplied
-  material and emits
-  `proof-artifacts/layer-rbc-boundary-review-evaluation/receipt.json`,
-  `readback.json`, and `transcript.json`.
-- Current follow-up receipt:
-  `rbc-evaluation-receipt:3464ecdcd9776950`
-  `sha256:3464ecdcd9776950310b25cad61c20159754ea490822c85cfdd2c9418e172b44`.
-  Readback:
-  `rbc-evaluation-readback:f4894423add8e852`
-  `sha256:f4894423add8e85214411efd90b80d7f03e777c338d810de52e7b5ea3cead473`.
-  Transcript:
-  `sha256:90461f3cbae32d800d709dfc7dfbb9363c69010fdee3d20a8e850af94c914316`.
-- The decision is `allowed` for the supplied boundary-review material only.
-  The receipt preserves remaining Layer blockers for accepted events, accepted
-  continuity, production storage, production append, and durable decision
-  append. It is not governed seam, Layer admission, append capability grant,
-  durable decision append, authority, production durability, or swarm proof.
-- `npm run rbc:edge-request-packet` consumes Edge's minimal operator request
-  packet/readback as supplied material and emits
-  `proof-artifacts/edge-request-packet-evaluation/receipt.json`,
-  `readback.json`, and `transcript.json`.
-- The Edge request packet decision is `allowed` for the report-only request
-  shape only. It means the supplied packet is acceptable input for future
-  mediated repo-family reassessment. It does not insert a queue action,
-  dispatch work, execute the request, approve activation, authorize dependency
-  acquisition, mutate Edge, govern a seam, or grant authority.
+- the Layer plan is recorded as planning only and not admitted;
+- Layer readback verifies the plan hash;
+- Edge projects read-only operator visibility with no action controls;
+- accepted source continuity is preserved only for the local layer/context;
+- material visibility is preserved but not treated as durability;
+- remaining blockers for admission, durable append, production durability, and
+  multi-observer convergence remain unresolved;
+- storage refs, external refs, local paths, and views are not treated as canon
+  or source continuity;
+- RBC and Edge do not claim authority.
 
 ## Next Useful Work
 
-RBC has consumed the current Edge request packet. The next pressure should move
-back to Spine for repo-family reassessment, then downstream to whichever repo
-must consume the RBC receipt or act on the operator request under its own
-boundary. RBC should not continue solo work unless a new downstream packet or
-boundary question arrives.
+The next pressure should move back to Spine for repo-family reassessment, then
+to Layer to consume this RBC report-only evaluation before any local
+admission/durability candidate is proposed.
+
+RBC should not continue solo work unless a new downstream packet or boundary
+question arrives.
 
 - preserve deterministic refs if the same packet is evaluated again;
 - keep proof fixtures operational rather than doc-only;
@@ -183,6 +109,6 @@ boundary question arrives.
 - keep caller-supplied policy history explicit;
 - keep adapters as data suppliers outside the resolver core;
 - do not claim governed seam from local receipt generation alone;
-- do not claim the Layer boundary-review packet evaluation grants Layer
-  admission, append capability, durable decision append, authority, production
-  durability, or seam transport.
+- do not claim the local admission/durability plan evaluation grants Layer
+  admission, append approval, durable append approval, authority, production
+  durability, canonical truth, or seam transport.
